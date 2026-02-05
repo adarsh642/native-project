@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, SafeAreaView, StatusBar, Image, TouchableOpacity } from 'react-native';
 import { Banner } from '@/components/Banner';
 import { CategoryItem } from '@/components/CategoryItem';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { ServiceCard } from '@/components/ServiceCard';
 
@@ -34,15 +33,15 @@ const BANNER_SLIDES = [
 ];
 
 const SERVICES = [
-  { id: '1', title: 'All', image: 'https://images.unsplash.com/photo-1584622781564-1d9876a13d00?w=400' },
-  { id: '2', title: 'AC Repair', image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400' },
-  { id: '3', title: 'Salon', image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400' },
-  { id: '4', title: 'Plumber', image: 'https://images.unsplash.com/photo-1585703866243-999363bc97f1?w=400' },
-  { id: '5', title: 'Electrician', image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400' },
-  { id: '6', title: 'Painting', image: 'https://images.unsplash.com/photo-1562259920-2da39c0994fd?w=400' },
-  { id: '7', title: 'Massage', image: 'https://images.unsplash.com/photo-1544161515-4af6b1d8b159?w=400' },
-  { id: '8', title: 'Appliance', image: 'https://images.unsplash.com/photo-1581622558663-b2e33377dfb2?w=400' },
-  { id: '9', title: 'More', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400' },
+  { id: '1', title: 'All', icon: 'view-module' },
+  { id: '2', title: 'AC Repair', icon: 'ac-unit' },
+  { id: '3', title: 'Salon', icon: 'content-cut' },
+  { id: '4', title: 'Plumber', icon: 'plumbing' },
+  { id: '5', title: 'Electrician', icon: 'power' },
+  { id: '6', title: 'Painting', icon: 'format-paint' },
+  { id: '7', title: 'Massage', icon: 'spa' },
+  { id: '8', title: 'Appliance', icon: 'kitchen' },
+  { id: '9', title: 'More', icon: 'more-horiz' },
 ];
 
 const SERVICES_PACKAGES = [
@@ -144,7 +143,7 @@ export default function HomeScreen() {
               <View key={cat.id} style={styles.categoryItemWrapper}>
                 <CategoryItem
                   title={cat.title}
-                  imageUri={cat.image}
+                  icon={cat.icon as any}
                   isActive={activeCategory === cat.id}
                   onPress={() => setActiveCategory(cat.id)}
                 />

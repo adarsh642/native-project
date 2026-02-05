@@ -1,18 +1,23 @@
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import React from 'react';
-import { TouchableOpacity, Image, Text, StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface CategoryItemProps {
     title: string;
-    imageUri: string;
+    icon: keyof typeof MaterialIcons.glyphMap;
     isActive?: boolean;
     onPress: () => void;
 }
 
-export const CategoryItem: React.FC<CategoryItemProps> = ({ title, imageUri, isActive, onPress }) => {
+export const CategoryItem: React.FC<CategoryItemProps> = ({ title, icon, isActive, onPress }) => {
     return (
         <TouchableOpacity style={styles.container} onPress={onPress}>
             <View style={[styles.imageContainer, isActive && styles.activeImageContainer]}>
-                <Image source={{ uri: imageUri }} style={styles.image} />
+                <MaterialIcons
+                    name={icon}
+                    size={28}
+                    color={isActive ? '#4ECDC4' : '#666'}
+                />
             </View>
             <Text style={[styles.title, isActive && styles.activeTitle]}>{title}</Text>
         </TouchableOpacity>
@@ -45,15 +50,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 4,
     },
-    image: {
-        width: 40,
-        height: 40,
-        resizeMode: 'contain',
-    },
     title: {
         fontSize: 12,
         color: '#888',
         fontWeight: '500',
+        textAlign: 'center',
     },
     activeTitle: {
         color: '#4ECDC4',
