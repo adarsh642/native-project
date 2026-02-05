@@ -2,12 +2,12 @@
 
 # dependencies
 node_modules/
-package-lock.json
 
 # Expo
 .expo/
 dist/
 web-build/
+dev-client-build/
 
 # Native
 .kotlin/

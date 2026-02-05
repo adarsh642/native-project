@@ -5,9 +5,7 @@ import { CategoryItem } from '@/components/CategoryItem';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { TextInput } from 'react-native';
 
-// import { ProductCard } from '@/components/ProductCard';
 import { ServiceCard } from '@/components/ServiceCard';
-// 
 
 // Mock Data
 // Mock Data - Urban Company Style Services

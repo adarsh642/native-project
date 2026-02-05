@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, SafeAreaView, StatusBar, TextInput, TouchableOpacity } from 'react-native';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 
-const BOOKINGS = [
+const INITIAL_BOOKINGS = [
     {
         id: '1',
         serviceName: 'AC Deep Cleaning',
@@ -42,7 +42,14 @@ const BOOKINGS = [
 ];
 
 export default function BookingsScreen() {
+    const [bookings, setBookings] = useState(INITIAL_BOOKINGS);
     const [searchQuery, setSearchQuery] = useState('');
+
+    const handleRateBooking = (id: string, newRating: number) => {
+        setBookings(prev => prev.map(b =>
+            b.id === id ? { ...b, rating: newRating } : b
+        ));
+    };
 
     const getStatusStyles = (type: string) => {
         switch (type) {
@@ -64,7 +71,7 @@ export default function BookingsScreen() {
                 <Text style={styles.headerTitle}>My Bookings</Text>
             </View>
 
-            {/* Search and Filter Row */}
+            {/* Search Row */}
             <View style={styles.searchContainer}>
                 <View style={styles.searchBar}>
                     <IconSymbol name="magnifyingglass" size={20} color="#888" />
@@ -76,13 +83,10 @@ export default function BookingsScreen() {
                         onChangeText={setSearchQuery}
                     />
                 </View>
-                <TouchableOpacity style={styles.filterButton}>
-                    <IconSymbol name="slider.horizontal.3" size={20} color="#1A1A1A" />
-                </TouchableOpacity>
             </View>
 
             <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-                {BOOKINGS.map((booking) => (
+                {bookings.map((booking) => (
                     <View key={booking.id} style={styles.card}>
                         {/* Top Row: Service Name & Status */}
                         <View style={styles.cardHeader}>
@@ -112,13 +116,18 @@ export default function BookingsScreen() {
                         <View style={styles.ratingRow}>
                             <View style={styles.starsRow}>
                                 {[1, 2, 3, 4, 5].map((star) => (
-                                    <IconSymbol
+                                    <TouchableOpacity
                                         key={star}
-                                        name="star.fill"
-                                        size={22}
-                                        color={star <= booking.rating ? '#4CAF50' : '#E0E0E0'}
-                                        style={{ marginRight: 4 }}
-                                    />
+                                        onPress={() => handleRateBooking(booking.id, star)}
+                                        activeOpacity={0.7}
+                                    >
+                                        <IconSymbol
+                                            name="star.fill"
+                                            size={22}
+                                            color={star <= booking.rating ? '#4CAF50' : '#E0E0E0'}
+                                            style={{ marginRight: 4 }}
+                                        />
+                                    </TouchableOpacity>
                                 ))}
                             </View>
                             <TouchableOpacity onPress={() => console.log('Write review')}>
@@ -165,7 +174,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 10,
         borderRadius: 12,
-        marginRight: 12,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.05,
@@ -177,16 +185,6 @@ const styles = StyleSheet.create({
         marginLeft: 8,
         fontSize: 14,
         color: '#333',
-    },
-    filterButton: {
-        backgroundColor: '#fff',
-        padding: 10,
-        borderRadius: 12,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.05,
-        shadowRadius: 2,
-        elevation: 1,
     },
     scrollContent: {
         paddingHorizontal: 20,

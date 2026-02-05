@@ -36,13 +36,6 @@ export default function TabLayout() {
           title: 'Profile',
         }}
       />
-      {/* Hide the old explore route if it exists, or let it work but not show in tab bar via styling if needed (but we replaced it in routes) */}
-      <Tabs.Screen
-        name="explore"
-        options={{
-          href: null, // Hide from tab bar
-        }}
-      />
     </Tabs>
   );
 }
