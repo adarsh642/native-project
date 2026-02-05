@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, SafeAreaView, StatusBar, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, SafeAreaView, StatusBar, TextInput, TouchableOpacity, Image } from 'react-native';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 
 const INITIAL_BOOKINGS = [
@@ -11,15 +11,17 @@ const INITIAL_BOOKINGS = [
         date: '24 Oct 2023',
         time: '10:30 AM',
         rating: 4,
+        imageUri: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400',
     },
     {
         id: '2',
-        serviceName: 'Bathroom Deep Cleaning',
+        serviceName: 'Bathroom Cleaning',
         status: 'Upcoming',
         statusType: 'upcoming',
         date: '15 Oct 2023',
         time: '02:00 PM',
         rating: 0,
+        imageUri: 'https://images.herzindagi.info/image/2021/Jul/how-to-deep-clean-bathroom-like-a-professional-main.jpg',
     },
     {
         id: '3',
@@ -29,6 +31,7 @@ const INITIAL_BOOKINGS = [
         date: '10 Oct 2023',
         time: '11:00 AM',
         rating: 0,
+        imageUri: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400',
     },
     {
         id: '4',
@@ -38,12 +41,22 @@ const INITIAL_BOOKINGS = [
         date: '02 Oct 2023',
         time: '09:00 AM',
         rating: 3,
+        imageUri: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400',
     },
 ];
 
 export default function BookingsScreen() {
     const [bookings, setBookings] = useState(INITIAL_BOOKINGS);
     const [searchQuery, setSearchQuery] = useState('');
+    const [activeFilter, setActiveFilter] = useState('All');
+
+    const filters = ['All', 'Upcoming', 'Completed', 'Cancelled'];
+
+    const filteredBookings = bookings.filter(booking => {
+        const matchesSearch = booking.serviceName.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesFilter = activeFilter === 'All' || booking.status === activeFilter;
+        return matchesSearch && matchesFilter;
+    });
 
     const handleRateBooking = (id: string, newRating: number) => {
         setBookings(prev => prev.map(b =>
@@ -56,7 +69,7 @@ export default function BookingsScreen() {
             case 'completed':
                 return { bg: '#E6F4EA', dot: '#1E8E3E', text: '#1E8E3E' };
             case 'upcoming':
-                return { bg: '#E8F0FE', dot: '#1A73E8', text: '#1A73E8' };
+                return { bg: '#FEF7E0', dot: '#F9AB00', text: '#F9AB00' };
             case 'cancelled':
                 return { bg: '#FCE8E6', dot: '#D93025', text: '#D93025' };
             default:
@@ -85,35 +98,65 @@ export default function BookingsScreen() {
                 </View>
             </View>
 
+            {/* Filter Bar */}
+            <View style={styles.filterContainer}>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterScroll}>
+                    {filters.map((filter) => (
+                        <TouchableOpacity
+                            key={filter}
+                            style={[
+                                styles.filterPill,
+                                activeFilter === filter && styles.activeFilterPill
+                            ]}
+                            onPress={() => setActiveFilter(filter)}
+                        >
+                            <Text style={[
+                                styles.filterText,
+                                activeFilter === filter && styles.activeFilterText
+                            ]}>{filter}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+            </View>
+
             <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-                {bookings.map((booking) => (
+                {filteredBookings.map((booking) => (
                     <View key={booking.id} style={styles.card}>
-                        {/* Top Row: Service Name & Status */}
-                        <View style={styles.cardHeader}>
-                            <Text style={styles.serviceName}>{booking.serviceName}</Text>
-                            <View style={[
-                                styles.statusContainer,
-                                { backgroundColor: getStatusStyles(booking.statusType).bg }
-                            ]}>
+                        <View style={styles.cardMainContent}>
+                            <View style={styles.imageWrapper}>
+                                <Image source={{ uri: booking.imageUri }} style={styles.serviceImage} />
+                            </View>
+                            <View style={styles.bookingInfo}>
+                                {/* Top Row: Service Name & Status */}
+                                <View style={styles.cardHeader}>
+                                    <Text style={styles.serviceName}>{booking.serviceName}</Text>
+                                </View>
+
+                                {/* Middle Row: Date & Time */}
+                                <View style={styles.detailsRow}>
+                                    <IconSymbol name="calendar.fill" size={14} color="#666" />
+                                    <Text style={styles.detailText}>{booking.date} at {booking.time}</Text>
+                                </View>
+
+                                {/* Status moved after date and time */}
                                 <View style={[
-                                    styles.statusDot,
-                                    { backgroundColor: getStatusStyles(booking.statusType).dot }
-                                ]} />
-                                <Text style={[
-                                    styles.statusText,
-                                    { color: getStatusStyles(booking.statusType).text }
-                                ]}>{booking.status}</Text>
+                                    styles.statusContainer,
+                                    { backgroundColor: getStatusStyles(booking.statusType).bg, alignSelf: 'flex-start' }
+                                ]}>
+                                    <View style={[
+                                        styles.statusDot,
+                                        { backgroundColor: getStatusStyles(booking.statusType).dot }
+                                    ]} />
+                                    <Text style={[
+                                        styles.statusText,
+                                        { color: getStatusStyles(booking.statusType).text }
+                                    ]}>{booking.status}</Text>
+                                </View>
                             </View>
                         </View>
 
-                        {/* Middle Row: Date & Time */}
-                        <View style={styles.detailsRow}>
-                            <IconSymbol name="calendar.fill" size={16} color="#666" />
-                            <Text style={styles.detailText}>{booking.date} at {booking.time}</Text>
-                        </View>
-
                         {/* Bottom Row: Centered Large Stars & Review Link */}
-                        <View style={styles.ratingRow}>
+                        < View style={styles.ratingRow} >
                             <View style={styles.starsRow}>
                                 {[1, 2, 3, 4, 5].map((star) => (
                                     <TouchableOpacity
@@ -124,7 +167,7 @@ export default function BookingsScreen() {
                                         <IconSymbol
                                             name="star.fill"
                                             size={22}
-                                            color={star <= booking.rating ? '#4CAF50' : '#E0E0E0'}
+                                            color={star <= booking.rating ? '#1A1A1A' : '#E0E0E0'}
                                             style={{ marginRight: 4 }}
                                         />
                                     </TouchableOpacity>
@@ -135,11 +178,12 @@ export default function BookingsScreen() {
                             </TouchableOpacity>
                         </View>
                     </View>
-                ))}
+                ))
+                }
                 {/* Anti-Overlap Padding */}
                 <View style={{ height: 100 }} />
-            </ScrollView>
-        </SafeAreaView>
+            </ScrollView >
+        </SafeAreaView >
     );
 }
 
@@ -201,23 +245,71 @@ const styles = StyleSheet.create({
         shadowRadius: 8,
         elevation: 3,
     },
+    cardMainContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    imageWrapper: {
+        width: 90,
+        height: 90,
+        borderRadius: 12,
+        marginRight: 15,
+        backgroundColor: '#F0F0F0',
+        overflow: 'hidden',
+    },
+    filterContainer: {
+        marginBottom: 10,
+    },
+    filterScroll: {
+        paddingHorizontal: 20,
+        paddingBottom: 5,
+    },
+    filterPill: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 20,
+        backgroundColor: '#fff',
+        marginRight: 10,
+        borderWidth: 1,
+        borderColor: '#eee',
+    },
+    activeFilterPill: {
+        backgroundColor: '#1A1A1A',
+        borderColor: '#1A1A1A',
+    },
+    filterText: {
+        fontSize: 14,
+        color: '#666',
+        fontWeight: '500',
+    },
+    activeFilterText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+    serviceImage: {
+        width: '100%',
+        height: '100%',
+    },
+    bookingInfo: {
+        flex: 1,
+    },
     cardHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
-        marginBottom: 12,
+        marginBottom: 8,
     },
     serviceName: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold',
         color: '#1A1A1A',
         flex: 1,
-        marginRight: 10,
+        marginRight: 8,
     },
     statusContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#E6F4EA',
+        backgroundColor: '#F1F3F4',
         paddingHorizontal: 10,
         paddingVertical: 4,
         borderRadius: 12,
@@ -226,13 +318,13 @@ const styles = StyleSheet.create({
         width: 6,
         height: 6,
         borderRadius: 3,
-        backgroundColor: '#1E8E3E',
+        backgroundColor: '#1A1A1A',
         marginRight: 6,
     },
     statusText: {
         fontSize: 12,
         fontWeight: '600',
-        color: '#1E8E3E',
+        color: '#1A1A1A',
     },
     detailsRow: {
         flexDirection: 'row',
@@ -245,7 +337,10 @@ const styles = StyleSheet.create({
         marginLeft: 8,
     },
     ratingRow: {
-        marginTop: 15,
+        marginTop: 18,
+        paddingTop: 15,
+        borderTopWidth: 1,
+        borderTopColor: '#F0F0F0',
         alignItems: 'center',
     },
     starsRow: {

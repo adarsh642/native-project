@@ -112,11 +112,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     marginBottom: 6,
+    fontFamily: 'System',
   },
   subtitle: {
     fontSize: 14,
     color: '#eee',
     marginBottom: 12,
+    fontFamily: 'System',
   },
   button: {
     backgroundColor: '#FF6B6B',
@@ -129,6 +131,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 12,
+    fontFamily: 'System',
   },
   pagination: {
     flexDirection: 'row',

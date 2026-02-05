@@ -47,6 +47,9 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         position: 'relative',
+        backgroundColor: '#F0F0F0',
+        borderRadius: 8,
+        overflow: 'hidden',
     },
     image: {
         width: '100%',
@@ -92,7 +95,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
     },
     addButtonText: {
-        color: '#6F4E37', // Brownish tone used in Urban Company or customizable
+        color: '#1A1A1A',
         fontWeight: 'bold',
         fontSize: 12,
         textTransform: 'uppercase',

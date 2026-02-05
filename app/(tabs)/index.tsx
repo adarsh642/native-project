@@ -12,21 +12,21 @@ import { ServiceCard } from '@/components/ServiceCard';
 const BANNER_SLIDES = [
   {
     id: '1',
-    imageUri: 'https://images.unsplash.com/photo-1581578731117-104f2a41272c?w=800&h=400&fit=crop',
+    imageUri: 'https://images.herzindagi.info/image/2021/Jul/how-to-deep-clean-bathroom-like-a-professional-main.jpg',
     title: 'Home Deep Cleaning',
     subtitle: 'Flat 50% off | Professional staff',
     buttonText: 'Book Now',
   },
   {
     id: '2',
-    imageUri: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&h=400&fit=crop',
+    imageUri: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1000&h=600&fit=crop',
     title: 'AC Service & Repair',
     subtitle: 'Get Summer Ready!',
     buttonText: 'Check Prices',
   },
   {
     id: '3',
-    imageUri: 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=800&h=400&fit=crop',
+    imageUri: 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=1000&h=600&fit=crop',
     title: 'Luxury Salon at Home',
     subtitle: 'Spa, Waxing & More',
     buttonText: 'View Services',
@@ -34,16 +34,15 @@ const BANNER_SLIDES = [
 ];
 
 const SERVICES = [
-  { id: 'all', title: 'All', image: 'https://cdn-icons-png.flaticon.com/512/5707/5707258.png' },
-  { id: '1', title: 'Cleaning', image: 'https://cdn-icons-png.flaticon.com/512/995/995016.png' },
-  { id: '2', title: 'AC Repair', image: 'https://cdn-icons-png.flaticon.com/512/900/900618.png' },
-  { id: '3', title: 'Salon', image: 'https://cdn-icons-png.flaticon.com/512/3063/3063822.png' },
-  { id: '4', title: 'Plumber', image: 'https://cdn-icons-png.flaticon.com/512/1064/1064875.png' },
-  { id: '5', title: 'Electrician', image: 'https://cdn-icons-png.flaticon.com/512/2917/2917711.png' },
-  { id: '6', title: 'Painting', image: 'https://cdn-icons-png.flaticon.com/512/2917/2917629.png' },
-  { id: '7', title: 'Massage', image: 'https://cdn-icons-png.flaticon.com/512/1814/1814238.png' },
-  { id: '8', title: 'Appliance', image: 'https://cdn-icons-png.flaticon.com/512/3652/3652392.png' },
-  { id: '9', title: 'More', image: 'https://cdn-icons-png.flaticon.com/512/5707/5707258.png' },
+  { id: '1', title: 'All', image: 'https://images.unsplash.com/photo-1584622781564-1d9876a13d00?w=400' },
+  { id: '2', title: 'AC Repair', image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400' },
+  { id: '3', title: 'Salon', image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400' },
+  { id: '4', title: 'Plumber', image: 'https://images.unsplash.com/photo-1585703866243-999363bc97f1?w=400' },
+  { id: '5', title: 'Electrician', image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400' },
+  { id: '6', title: 'Painting', image: 'https://images.unsplash.com/photo-1562259920-2da39c0994fd?w=400' },
+  { id: '7', title: 'Massage', image: 'https://images.unsplash.com/photo-1544161515-4af6b1d8b159?w=400' },
+  { id: '8', title: 'Appliance', image: 'https://images.unsplash.com/photo-1581622558663-b2e33377dfb2?w=400' },
+  { id: '9', title: 'More', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400' },
 ];
 
 const SERVICES_PACKAGES = [
@@ -52,28 +51,28 @@ const SERVICES_PACKAGES = [
     title: 'Split AC Power Saver Service',
     rating: 4.8,
     price: 19.00,
-    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&h=400&fit=crop',
+    image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400',
   },
   {
     id: '2',
     title: 'Bathroom Deep Cleaning',
     rating: 4.7,
     price: 15.50,
-    image: 'https://images.unsplash.com/photo-1584622050111-993a426fbf0a?w=400&h=400&fit=crop',
+    image: 'https://images.herzindagi.info/image/2021/Jul/how-to-deep-clean-bathroom-like-a-professional-main.jpg',
   },
   {
     id: '3',
     title: 'Sofa Deep Cleaning (3 Sofa Seats)',
     rating: 4.9,
     price: 25.00,
-    image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=400&fit=crop',
+    image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400',
   },
   {
     id: '4',
     title: 'Men\'s Haircut & Grooming',
     rating: 4.8,
     price: 10.00,
-    image: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400&h=400&fit=crop',
+    image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400',
   },
 ];
 
