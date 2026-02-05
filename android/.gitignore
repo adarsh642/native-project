@@ -1,0 +1,37 @@
+# OSX
+.DS_Store
+
+# Android/IntelliJ
+build/
+.idea/
+.gradle/
+local.properties
+*.iml
+*.hprof
+.cxx/
+
+# Kotlin
+.kotlin/
+
+# Bundle artifacts
+*.jsbundle
+
+# Generated files
+/app/build/
+/build/
+*.apk
+*.aab
+
+# Keystore files (keep secure, don't commit)
+*.keystore
+*.jks
+
+# Log files
+*.log
+
+# Gradle cache
+.gradle/
+gradle-app.setting
+
+# Signing config
+signing.properties
