@@ -200,13 +200,14 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         fontSize: 24,
-        fontWeight: 'bold',
         color: '#1A1A1A',
+        fontFamily: 'Inter-Bold',
     },
     searchContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 20,
+        marginTop: 10,
         marginBottom: 15,
         backgroundColor: '#F8F9FA',
     },
@@ -216,8 +217,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
         paddingHorizontal: 12,
-        paddingVertical: 10,
-        borderRadius: 12,
+        paddingVertical: 7,
+        borderRadius: 25,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.05,
@@ -229,6 +230,7 @@ const styles = StyleSheet.create({
         marginLeft: 8,
         fontSize: 14,
         color: '#333',
+        fontFamily: 'Inter-Regular',
     },
     scrollContent: {
         paddingHorizontal: 20,
@@ -280,7 +282,7 @@ const styles = StyleSheet.create({
     filterText: {
         fontSize: 14,
         color: '#666',
-        fontWeight: '500',
+        fontFamily: 'Inter-Medium',
     },
     activeFilterText: {
         color: '#fff',
@@ -301,10 +303,10 @@ const styles = StyleSheet.create({
     },
     serviceName: {
         fontSize: 16,
-        fontWeight: 'bold',
         color: '#1A1A1A',
         flex: 1,
         marginRight: 8,
+        fontFamily: 'Inter-Bold',
     },
     statusContainer: {
         flexDirection: 'row',
@@ -323,8 +325,8 @@ const styles = StyleSheet.create({
     },
     statusText: {
         fontSize: 12,
-        fontWeight: '600',
         color: '#1A1A1A',
+        fontFamily: 'Inter-SemiBold',
     },
     detailsRow: {
         flexDirection: 'row',
@@ -335,6 +337,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#666',
         marginLeft: 8,
+        fontFamily: 'Inter-Regular',
     },
     ratingRow: {
         marginTop: 18,

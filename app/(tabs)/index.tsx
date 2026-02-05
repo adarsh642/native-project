@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     paddingHorizontal: 20,
+    marginTop: 15,
     marginBottom: 20,
   },
   searchBar: {
@@ -202,23 +203,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5F5F5',
     paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 12,
+    paddingVertical: 8,
+    borderRadius: 25,
   },
   searchInput: {
     flex: 1,
     marginLeft: 10,
     fontSize: 14,
     color: '#333',
+    fontFamily: 'Inter-Regular',
   },
   greeting: {
     fontSize: 14,
     color: '#888',
+    fontFamily: 'Inter-Regular',
   },
   location: {
     fontSize: 18,
-    fontWeight: 'bold',
     color: '#1A1A1A',
+    fontFamily: 'Inter-Bold',
   },
   profileButton: {
     padding: 2,
@@ -253,14 +256,15 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
     color: '#1A1A1A',
     marginLeft: 20,
     marginBottom: 16,
+    fontFamily: 'Inter-Bold',
   },
   seeAll: {
     fontSize: 14,
     color: '#888',
+    fontFamily: 'Inter-Medium',
   },
   categoriesList: {
     paddingHorizontal: 20,

@@ -109,16 +109,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
-    fontWeight: 'bold',
     color: '#fff',
     marginBottom: 6,
-    fontFamily: 'System',
+    fontFamily: 'Inter-Bold',
   },
   subtitle: {
     fontSize: 14,
     color: '#eee',
     marginBottom: 12,
-    fontFamily: 'System',
+    fontFamily: 'Inter-Regular',
   },
   button: {
     backgroundColor: '#FF6B6B',
@@ -129,9 +128,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontWeight: 'bold',
     fontSize: 12,
-    fontFamily: 'System',
+    fontFamily: 'Inter-Bold',
   },
   pagination: {
     flexDirection: 'row',

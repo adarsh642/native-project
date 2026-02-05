@@ -26,7 +26,7 @@ export function CustomTabBar({ state, descriptors, navigation }: BottomTabBarPro
                     const isFocused = state.index === index;
 
                     // Filter out unwanted routes
-                    if (!['index', 'bookings', 'cart', 'profile'].includes(route.name)) {
+                    if (!['index', 'bookings', 'cart', 'account'].includes(route.name)) {
                         return null;
                     }
 
@@ -46,7 +46,7 @@ export function CustomTabBar({ state, descriptors, navigation }: BottomTabBarPro
                     if (route.name === 'index') iconName = 'house.fill';
                     else if (route.name === 'bookings') iconName = 'calendar.fill';
                     else if (route.name === 'cart') iconName = 'cart.fill';
-                    else if (route.name === 'profile') iconName = 'person.fill';
+                    else if (route.name === 'account') iconName = 'person.fill';
 
                     return (
                         <TouchableOpacity

@@ -16,7 +16,7 @@ export const CategoryItem: React.FC<CategoryItemProps> = ({ title, icon, isActiv
                 <MaterialIcons
                     name={icon}
                     size={28}
-                    color={isActive ? '#4ECDC4' : '#666'}
+                    color={isActive ? '#1A1A1A' : '#666'}
                 />
             </View>
             <Text style={[styles.title, isActive && styles.activeTitle]}>{title}</Text>
@@ -42,10 +42,10 @@ const styles = StyleSheet.create({
     },
     activeImageContainer: {
         backgroundColor: '#fff',
-        borderColor: '#4ECDC4',
+        borderColor: '#1A1A1A',
         borderWidth: 2,
         elevation: 4,
-        shadowColor: '#4ECDC4',
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
@@ -53,11 +53,11 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 12,
         color: '#888',
-        fontWeight: '500',
+        fontFamily: 'Inter-Medium',
         textAlign: 'center',
     },
     activeTitle: {
-        color: '#4ECDC4',
-        fontWeight: 'bold',
+        color: '#1A1A1A',
+        fontFamily: 'Inter-Bold',
     },
 });

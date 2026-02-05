@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     },
     ratingText: {
         fontSize: 10,
-        fontWeight: 'bold',
+        fontFamily: 'Inter-Bold',
         color: '#1A1A1A',
     },
     content: {
@@ -76,13 +76,14 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 14,
-        fontWeight: 'bold',
+        fontFamily: 'Inter-Bold',
         color: '#1A1A1A',
         marginBottom: 4,
         height: 38, // Fixed height for 2 lines
     },
     price: {
         fontSize: 12,
+        fontFamily: 'Inter-Regular',
         color: '#666',
         marginBottom: 10,
     },
@@ -95,8 +96,8 @@ const styles = StyleSheet.create({
         borderRadius: 6,
     },
     addButtonText: {
-        color: '#1A1A1A',
-        fontWeight: 'bold',
+        color: '#6F4E37', // Brownish tone used in Urban Company or customizable
+        fontFamily: 'Inter-Bold',
         fontSize: 12,
         textTransform: 'uppercase',
     },
