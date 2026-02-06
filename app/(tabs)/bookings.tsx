@@ -1,4 +1,6 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Colors } from '@/constants/theme';
+import { useTheme } from '@/context/ThemeContext';
 import React, { useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
@@ -46,6 +48,7 @@ const INITIAL_BOOKINGS = [
 ];
 
 export default function BookingsScreen() {
+    const { isDark } = useTheme();
     const [bookings, setBookings] = useState(INITIAL_BOOKINGS);
     const [searchQuery, setSearchQuery] = useState('');
     const [activeFilter, setActiveFilter] = useState('All');
@@ -67,31 +70,54 @@ export default function BookingsScreen() {
     const getStatusStyles = (type: string) => {
         switch (type) {
             case 'completed':
-                return { bg: '#E6F4EA', dot: '#1E8E3E', text: '#1E8E3E' };
+                return {
+                    bg: isDark ? '#1B2E20' : '#E6F4EA',
+                    dot: isDark ? '#34A853' : '#1E8E3E',
+                    text: isDark ? '#34A853' : '#1E8E3E'
+                };
             case 'upcoming':
-                return { bg: '#FEF7E0', dot: '#F9AB00', text: '#F9AB00' };
+                return {
+                    bg: isDark ? '#2E2816' : '#FEF7E0',
+                    dot: isDark ? '#FBBC04' : '#F9AB00',
+                    text: isDark ? '#FBBC04' : '#F9AB00'
+                };
             case 'cancelled':
-                return { bg: '#FCE8E6', dot: '#D93025', text: '#D93025' };
+                return {
+                    bg: isDark ? '#331B1B' : '#FCE8E6',
+                    dot: isDark ? '#EA4335' : '#D93025',
+                    text: isDark ? '#EA4335' : '#D93025'
+                };
             default:
-                return { bg: '#F1F3F4', dot: '#5F6368', text: '#5F6368' };
+                return {
+                    bg: isDark ? '#202124' : '#F1F3F4',
+                    dot: isDark ? '#9AA0A6' : '#5F6368',
+                    text: isDark ? '#9AA0A6' : '#5F6368'
+                };
         }
     };
 
+    const iconColor = isDark ? Colors.dark.icon : Colors.light.icon;
+    const textColor = isDark ? Colors.dark.text : Colors.light.text;
+    const secondaryTextColor = isDark ? Colors.dark.textSecondary : Colors.light.textSecondary;
+    const bgColor = isDark ? Colors.dark.background : Colors.light.background;
+    const cardBg = isDark ? Colors.dark.card : Colors.light.card;
+    const borderColor = isDark ? Colors.dark.border : Colors.light.border;
+
     return (
-        <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="dark-content" />
-            <View style={styles.header}>
-                <Text style={styles.headerTitle}>My Bookings</Text>
+        <SafeAreaView style={[styles.container, { backgroundColor: bgColor }]}>
+            <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
+            <View style={[styles.header, { backgroundColor: bgColor, borderBottomColor: borderColor, borderBottomWidth: 1 }]}>
+                <Text style={[styles.headerTitle, { color: textColor }]}>My Bookings</Text>
             </View>
 
 
-            <View style={styles.searchContainer}>
-                <View style={styles.searchBar}>
-                    <IconSymbol name="magnifyingglass" size={20} color="#888" />
+            <View style={[styles.searchContainer, { backgroundColor: bgColor }]}>
+                <View style={[styles.searchBar, { backgroundColor: cardBg, borderColor: borderColor, borderWidth: 1 }]}>
+                    <IconSymbol name="magnifyingglass" size={20} color={secondaryTextColor} />
                     <TextInput
-                        style={styles.searchInput}
+                        style={[styles.searchInput, { color: textColor }]}
                         placeholder="Search bookings..."
-                        placeholderTextColor="#999"
+                        placeholderTextColor={secondaryTextColor}
                         value={searchQuery}
                         onChangeText={setSearchQuery}
                     />
@@ -105,12 +131,14 @@ export default function BookingsScreen() {
                             key={filter}
                             style={[
                                 styles.filterPill,
+                                isDark && styles.filterPillDark,
                                 activeFilter === filter && styles.activeFilterPill
                             ]}
                             onPress={() => setActiveFilter(filter)}
                         >
                             <Text style={[
                                 styles.filterText,
+                                isDark && styles.textSecondaryDark,
                                 activeFilter === filter && styles.activeFilterText
                             ]}>{filter}</Text>
                         </TouchableOpacity>
@@ -120,19 +148,19 @@ export default function BookingsScreen() {
 
             <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
                 {filteredBookings.map((booking) => (
-                    <View key={booking.id} style={styles.card}>
+                    <View key={booking.id} style={[styles.card, isDark && styles.cardDark]}>
                         <View style={styles.cardMainContent}>
-                            <View style={styles.imageWrapper}>
+                            <View style={[styles.imageWrapper, isDark && styles.imageWrapperDark]}>
                                 <Image source={{ uri: booking.imageUri }} style={styles.serviceImage} />
                             </View>
                             <View style={styles.bookingInfo}>
                                 <View style={styles.cardHeader}>
-                                    <Text style={styles.serviceName}>{booking.serviceName}</Text>
+                                    <Text style={[styles.serviceName, isDark && styles.textDark]}>{booking.serviceName}</Text>
                                 </View>
 
                                 <View style={styles.detailsRow}>
-                                    <IconSymbol name="calendar.fill" size={14} color="#666" />
-                                    <Text style={styles.detailText}>{booking.date} at {booking.time}</Text>
+                                    <IconSymbol name="calendar.fill" size={14} color={isDark ? "#AAA" : "#666"} />
+                                    <Text style={[styles.detailText, isDark && styles.textSecondaryDark]}>{booking.date} at {booking.time}</Text>
                                 </View>
 
                                 <View style={[
@@ -151,7 +179,7 @@ export default function BookingsScreen() {
                             </View>
                         </View>
 
-                        < View style={styles.ratingRow} >
+                        < View style={[styles.ratingRow, isDark && styles.ratingRowDark]} >
                             <View style={styles.starsRow}>
                                 {[1, 2, 3, 4, 5].map((star) => (
                                     <TouchableOpacity
@@ -162,7 +190,7 @@ export default function BookingsScreen() {
                                         <IconSymbol
                                             name="star.fill"
                                             size={22}
-                                            color={star <= booking.rating ? '#1A1A1A' : '#E0E0E0'}
+                                            color={star <= booking.rating ? (isDark ? '#FFF' : '#1A1A1A') : (isDark ? '#333' : '#E0E0E0')}
                                             style={{ marginRight: 4 }}
                                         />
                                     </TouchableOpacity>
@@ -187,15 +215,27 @@ const styles = StyleSheet.create({
         backgroundColor: '#F8F9FA',
         paddingTop: 30,
     },
+    containerDark: {
+        backgroundColor: '#121212',
+    },
     header: {
         paddingHorizontal: 20,
         paddingVertical: 15,
         backgroundColor: '#F8F9FA',
     },
+    headerDark: {
+        backgroundColor: '#121212',
+    },
     headerTitle: {
         fontSize: 24,
         color: '#1A1A1A',
         fontFamily: 'Inter-Bold',
+    },
+    textDark: {
+        color: '#FFF',
+    },
+    textSecondaryDark: {
+        color: '#AAA',
     },
     searchContainer: {
         flexDirection: 'row',
@@ -219,6 +259,10 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 1,
     },
+    searchBarDark: {
+        backgroundColor: '#1E1E1E',
+        elevation: 0,
+    },
     searchInput: {
         flex: 1,
         marginLeft: 8,
@@ -241,6 +285,10 @@ const styles = StyleSheet.create({
         shadowRadius: 8,
         elevation: 3,
     },
+    cardDark: {
+        backgroundColor: '#1E1E1E',
+        elevation: 0,
+    },
     cardMainContent: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -252,6 +300,9 @@ const styles = StyleSheet.create({
         marginRight: 15,
         backgroundColor: '#F0F0F0',
         overflow: 'hidden',
+    },
+    imageWrapperDark: {
+        backgroundColor: '#333',
     },
     filterContainer: {
         marginBottom: 10,
@@ -268,6 +319,10 @@ const styles = StyleSheet.create({
         marginRight: 10,
         borderWidth: 1,
         borderColor: '#eee',
+    },
+    filterPillDark: {
+        backgroundColor: '#1E1E1E',
+        borderColor: '#333',
     },
     activeFilterPill: {
         backgroundColor: '#1A1A1A',
@@ -339,6 +394,9 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderTopColor: '#F0F0F0',
         alignItems: 'center',
+    },
+    ratingRowDark: {
+        borderTopColor: '#333',
     },
     starsRow: {
         flexDirection: 'row',

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, StyleSheet, Dimensions, Keyboard } from 'react-native';
+import { useTheme } from '@/context/ThemeContext';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, Keyboard, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { IconSymbol } from './ui/icon-symbol';
 
 export function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+    const { isDark } = useTheme();
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
@@ -20,7 +22,7 @@ export function CustomTabBar({ state, descriptors, navigation }: BottomTabBarPro
 
     return (
         <View style={styles.container}>
-            <View style={styles.content}>
+            <View style={[styles.content, { backgroundColor: isDark ? '#222' : '#1A1A1A' }]}>
                 {state.routes.map((route, index) => {
                     const { options } = descriptors[route.key];
                     const isFocused = state.index === index;
@@ -58,9 +60,9 @@ export function CustomTabBar({ state, descriptors, navigation }: BottomTabBarPro
                             style={styles.tabButton}
                         >
                             <IconSymbol
-                                size={20} 
+                                size={20}
                                 name={iconName}
-                                color={isFocused ? '#fff' : '#888'}
+                                color={isFocused ? '#FFF' : '#888'}
                             />
                             {isFocused && <View style={styles.dot} />}
                         </TouchableOpacity>
@@ -74,7 +76,7 @@ export function CustomTabBar({ state, descriptors, navigation }: BottomTabBarPro
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        bottom: 25, 
+        bottom: 25,
         left: 0,
         right: 0,
         alignItems: 'center',
@@ -82,11 +84,10 @@ const styles = StyleSheet.create({
     },
     content: {
         flexDirection: 'row',
-        backgroundColor: '#1A1A1A',
-        borderRadius: 40, 
-        paddingVertical: 12, 
+        borderRadius: 40,
+        paddingVertical: 12,
         paddingHorizontal: 15,
-        width: Dimensions.get('window').width * 0.85, 
+        width: Dimensions.get('window').width * 0.85,
         justifyContent: 'space-around',
         alignItems: 'center',
         elevation: 10,

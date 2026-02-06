@@ -1,3 +1,5 @@
+import { Colors } from '@/constants/theme';
+import { useTheme } from '@/context/ThemeContext';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
@@ -57,6 +59,7 @@ const SETTINGS_SECTIONS = [
 ];
 
 export default function AccountScreen() {
+    const { theme, setTheme, isDark } = useTheme();
     const [view, setView] = useState<'menu' | 'settings'>('menu');
     const [toggles, setToggles] = useState<Record<string, boolean>>({
         bookingUpdates: true,
@@ -65,7 +68,6 @@ export default function AccountScreen() {
         whatsappNotifications: true,
         smsNotifications: false,
         emailNotifications: true,
-        darkMode: false,
     });
 
     const handleMenuItemPress = (id: string) => {
@@ -75,21 +77,31 @@ export default function AccountScreen() {
     };
 
     const handleToggle = (id: string) => {
-        setToggles(prev => ({ ...prev, [id]: !prev[id] }));
+        if (id === 'darkMode') {
+            setTheme(isDark ? 'light' : 'dark');
+        } else {
+            setToggles(prev => ({ ...prev, [id]: !prev[id] }));
+        }
     };
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="dark-content" />
+    const iconColor = isDark ? Colors.dark.icon : Colors.light.icon;
+    const textColor = isDark ? Colors.dark.text : Colors.light.text;
+    const secondaryTextColor = isDark ? Colors.dark.textSecondary : Colors.light.textSecondary;
+    const borderColor = isDark ? Colors.dark.border : Colors.light.border;
+    const sectionBg = isDark ? Colors.dark.backgroundSecondary : Colors.light.backgroundSecondary;
 
-            <View style={styles.header}>
+    return (
+        <SafeAreaView style={[styles.container, isDark && styles.containerDark]}>
+            <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
+
+            <View style={[styles.header, isDark && styles.headerDark]}>
                 {view === 'settings' ? (
                     <TouchableOpacity onPress={() => setView('menu')} style={styles.backButton}>
-                        <MaterialIcons name="arrow-back" size={24} color="#1A1A1A" />
-                        <Text style={styles.headerTitle}>Settings</Text>
+                        <MaterialIcons name="arrow-back" size={24} color={iconColor} />
+                        <Text style={[styles.headerTitle, isDark && styles.textDark]}>Settings</Text>
                     </TouchableOpacity>
                 ) : (
-                    <Text style={styles.headerTitle}>Account</Text>
+                    <Text style={[styles.headerTitle, isDark && styles.textDark]}>Account</Text>
                 )}
             </View>
 
@@ -97,15 +109,15 @@ export default function AccountScreen() {
                 {view === 'menu' ? (
                     <>
 
-                        <View style={styles.profileSection}>
+                        <View style={[styles.profileSection, isDark && styles.profileSectionDark]}>
                             <View style={styles.profileHeaderContainer}>
-                                <View style={styles.profilePicContainer}>
-                                    <MaterialIcons name="person" size={40} color="#1A1A1A" />
+                                <View style={[styles.profilePicContainer, isDark && styles.profilePicContainerDark]}>
+                                    <MaterialIcons name="person" size={40} color={iconColor} />
                                 </View>
                                 <View style={styles.profileInfo}>
-                                    <Text style={styles.userName}>Adarsh Singh</Text>
-                                    <Text style={styles.userPhone}>+91 98765 43210</Text>
-                                    <Text style={styles.userEmail}>adarsh@example.com</Text>
+                                    <Text style={[styles.userName, isDark && styles.textDark]}>Adarsh Singh</Text>
+                                    <Text style={[styles.userPhone, isDark && styles.textSecondaryDark]}>+91 98765 43210</Text>
+                                    <Text style={[styles.userEmail, isDark && styles.textSecondaryDark]}>adarsh@example.com</Text>
                                 </View>
                             </View>
                         </View>
@@ -115,24 +127,24 @@ export default function AccountScreen() {
                             {MENU_ITEMS.map((item) => (
                                 <TouchableOpacity
                                     key={item.id}
-                                    style={styles.menuItem}
+                                    style={[styles.menuItem, isDark && styles.menuItemDark]}
                                     onPress={() => handleMenuItemPress(item.id)}
                                 >
                                     <View style={styles.menuItemLeft}>
-                                        <MaterialIcons name={item.icon as any} size={24} color="#1A1A1A" />
-                                        <Text style={styles.menuItemTitle}>{item.title}</Text>
+                                        <MaterialIcons name={item.icon as any} size={24} color={iconColor} />
+                                        <Text style={[styles.menuItemTitle, isDark && styles.textDark]}>{item.title}</Text>
                                     </View>
-                                    <MaterialIcons name="chevron-right" size={24} color="#CCC" />
+                                    <MaterialIcons name="chevron-right" size={24} color={isDark ? "#555" : "#CCC"} />
                                 </TouchableOpacity>
                             ))}
                         </View>
 
 
                         <View style={styles.footer}>
-                            <TouchableOpacity style={styles.logoutButton}>
+                            <TouchableOpacity style={[styles.logoutButton, { borderColor: isDark ? '#FF6B6B' : '#FF6B6B' }]}>
                                 <Text style={styles.logoutText}>Logout</Text>
                             </TouchableOpacity>
-                            <Text style={styles.versionText}>Version 1.0.0</Text>
+                            <Text style={[styles.versionText, { color: secondaryTextColor }]}>Version 1.0.0</Text>
                         </View>
                     </>
                 ) : (
@@ -140,28 +152,29 @@ export default function AccountScreen() {
                         {SETTINGS_SECTIONS.map((section) => (
                             <View key={section.id} style={styles.settingsSection}>
                                 <View style={styles.sectionHeader}>
-                                    <MaterialIcons name={section.icon as any} size={22} color="#1A1A1A" />
-                                    <Text style={styles.sectionTitle}>{section.title}</Text>
+                                    <MaterialIcons name={section.icon as any} size={22} color={iconColor} />
+                                    <Text style={[styles.sectionTitle, isDark && styles.textDark]}>{section.title}</Text>
                                 </View>
-                                <View style={styles.sectionItems}>
-                                    {section.items.map((item) => (
-                                        <View key={item.id} style={styles.settingsItem}>
+                                <View style={[styles.sectionItems, isDark && styles.sectionItemsDark]}>
+                                    {section.items.map((item: any) => (
+                                        <View key={item.id} style={[styles.settingsItem, isDark && styles.settingsItemDark]}>
                                             <Text style={[
                                                 styles.settingsItemText,
+                                                isDark && styles.textDark,
                                                 item.isDanger && { color: '#FF6B6B' }
                                             ]}>
                                                 {item.title}
                                             </Text>
                                             {item.type === 'toggle' ? (
                                                 <Switch
-                                                    value={toggles[item.id]}
+                                                    value={item.id === 'darkMode' ? isDark : toggles[item.id]}
                                                     onValueChange={() => handleToggle(item.id)}
-                                                    trackColor={{ false: '#EEE', true: '#1A1A1A' }}
-                                                    thumbColor="#FFF"
+                                                    trackColor={{ false: isDark ? '#333' : '#EEE', true: isDark ? '#555' : '#1A1A1A' }}
+                                                    thumbColor={isDark ? '#FFF' : '#FFF'}
                                                 />
                                             ) : (
                                                 <TouchableOpacity>
-                                                    <MaterialIcons name="chevron-right" size={20} color="#CCC" />
+                                                    <MaterialIcons name="chevron-right" size={20} color={isDark ? "#555" : "#CCC"} />
                                                 </TouchableOpacity>
                                             )}
                                         </View>
@@ -181,6 +194,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
+    containerDark: {
+        backgroundColor: '#121212',
+    },
     header: {
         paddingHorizontal: 20,
         paddingTop: 20,
@@ -188,6 +204,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderBottomWidth: 1,
         borderBottomColor: '#F0F0F0',
+    },
+    headerDark: {
+        backgroundColor: '#121212',
+        borderBottomColor: '#333',
+    },
+    textDark: {
+        color: '#FFF',
+    },
+    textSecondaryDark: {
+        color: '#AAA',
     },
     backButton: {
         flexDirection: 'row',
@@ -211,6 +237,9 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderRadius: 16,
     },
+    profileSectionDark: {
+        backgroundColor: '#1E1E1E',
+    },
     profileHeaderContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -224,6 +253,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 15,
+    },
+    profilePicContainerDark: {
+        backgroundColor: '#333',
     },
     profileInfo: {
         flex: 1,
@@ -258,6 +290,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#F5F5F5',
     },
+    menuItemDark: {
+        borderBottomColor: '#333',
+    },
     menuItemLeft: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -291,6 +326,9 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         paddingHorizontal: 15,
     },
+    sectionItemsDark: {
+        backgroundColor: '#1E1E1E',
+    },
     settingsItem: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -298,6 +336,9 @@ const styles = StyleSheet.create({
         paddingVertical: 16,
         borderBottomWidth: 1,
         borderBottomColor: '#EEE',
+    },
+    settingsItemDark: {
+        borderBottomColor: '#333',
     },
     settingsItemText: {
         fontSize: 15,

@@ -1,5 +1,6 @@
+import { useTheme } from '@/context/ThemeContext';
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Dimensions, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import { Dimensions, Image, NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const { width } = Dimensions.get('window');
 const CARD_MARGIN = 20;
@@ -19,6 +20,7 @@ interface BannerProps {
 }
 //here we are using the banner components to display the slides
 export const Banner: React.FC<BannerProps> = ({ slides, onPress }) => {
+  const { isDark } = useTheme();
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -29,7 +31,7 @@ export const Banner: React.FC<BannerProps> = ({ slides, onPress }) => {
       setActiveIndex(roundIndex);
     }
   };
-//here we are using the banner components to display the slides 
+  //here we are using the banner components to display the slides 
   return (
     <View style={styles.wrapper}>
       <ScrollView
@@ -40,7 +42,7 @@ export const Banner: React.FC<BannerProps> = ({ slides, onPress }) => {
         scrollEventThrottle={16}
         contentContainerStyle={styles.scrollContent}
         decelerationRate="fast"
-        snapToInterval={width} 
+        snapToInterval={width}
       >
         {slides.map((slide, index) => (
           <View key={slide.id} style={styles.slideContainer}>
@@ -66,7 +68,7 @@ export const Banner: React.FC<BannerProps> = ({ slides, onPress }) => {
             key={index}
             style={[
               styles.dot,
-              { backgroundColor: index === activeIndex ? '#1A1A1A' : '#ccc', width: index === activeIndex ? 20 : 8 }
+              { backgroundColor: index === activeIndex ? (isDark ? '#FFF' : '#1A1A1A') : (isDark ? '#444' : '#ccc'), width: index === activeIndex ? 20 : 8 }
             ]}
           />
         ))}
@@ -82,8 +84,8 @@ const styles = StyleSheet.create({
   scrollContent: {
   },
   slideContainer: {
-    width: width, 
-    alignItems: 'center', 
+    width: width,
+    alignItems: 'center',
   },
   card: {
     width: CARD_WIDTH,
@@ -91,6 +93,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: 'hidden',
     backgroundColor: '#f0f0f0',
+  },
+  cardDark: {
+    backgroundColor: '#333',
   },
   image: {
     width: '100%',

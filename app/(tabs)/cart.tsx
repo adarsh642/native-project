@@ -1,8 +1,11 @@
+import { SwipeToPay } from '@/components/SwipeToPay';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { useTheme } from '@/context/ThemeContext';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { Colors } from '@/constants/theme';
 import { useCart } from '@/context/CartContext';
 
 const RECOMMENDED_ADDONS = [
@@ -11,6 +14,7 @@ const RECOMMENDED_ADDONS = [
 ];
 
 export default function CartScreen() {
+    const { isDark } = useTheme();
     const router = useRouter();
     const { items, updateQuantity, removeFromCart } = useCart();
     const [tip, setTip] = useState(50);
@@ -42,38 +46,45 @@ export default function CartScreen() {
         </TouchableOpacity>
     );
 
+    const iconColor = isDark ? Colors.dark.icon : Colors.light.icon;
+    const textColor = isDark ? Colors.dark.text : Colors.light.text;
+    const secondaryTextColor = isDark ? Colors.dark.textSecondary : Colors.light.textSecondary;
+    const bgColor = isDark ? Colors.dark.background : Colors.light.background;
+    const sectionBg = isDark ? Colors.dark.card : Colors.light.card;
+    const borderColor = isDark ? Colors.dark.border : Colors.light.border;
+
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
+        <SafeAreaView style={[styles.container, { backgroundColor: bgColor }]}>
+            <View style={[styles.header, { backgroundColor: isDark ? Colors.dark.backgroundSecondary : '#fff', borderBottomColor: borderColor, borderBottomWidth: 1 }]}>
                 <TouchableOpacity style={styles.backButton}>
-                    <IconSymbol name="arrow-left" size={24} color="#1A1A1A" />
+                    <IconSymbol name="arrow-left" size={24} color={iconColor} />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>Summary</Text>
+                <Text style={[styles.headerTitle, { color: textColor }]}>Summary</Text>
             </View>
 
             <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
 
 
-                <View style={styles.section}>
+                <View style={[styles.section, { backgroundColor: sectionBg, borderColor: borderColor }]}>
                     {items.length === 0 ? (
-                        <Text style={{ textAlign: 'center', padding: 20, color: '#666' }}>Your cart is empty</Text>
+                        <Text style={{ textAlign: 'center', padding: 20, color: secondaryTextColor }}>Your cart is empty</Text>
                     ) : (
                         items.map((item) => (
                             <View key={item.id} style={styles.cartItem}>
                                 <View style={styles.itemRow}>
                                     <Image source={{ uri: item.image }} style={styles.itemImage} />
                                     <View style={styles.itemDetails}>
-                                        <Text style={styles.itemName} numberOfLines={2}>{item.name}</Text>
-                                        <Text style={styles.itemPrice}>₹{item.price}</Text>
+                                        <Text style={[styles.itemName, { color: textColor }]} numberOfLines={2}>{item.name}</Text>
+                                        <Text style={[styles.itemPrice, { color: textColor }]}>₹{item.price}</Text>
                                     </View>
-                                    <View style={styles.quantityControl}>
+                                    <View style={[styles.quantityControl, isDark && styles.quantityControlDark]}>
                                         <TouchableOpacity
                                             style={styles.qtyBtn}
                                             onPress={() => item.quantity === 1 ? removeFromCart(item.id) : handleQuantityChange(item.id, -1)}
                                         >
                                             <Text style={styles.qtyBtnText}>-</Text>
                                         </TouchableOpacity>
-                                        <Text style={styles.qtyText}>{item.quantity}</Text>
+                                        <Text style={[styles.qtyText, isDark && styles.textDark]}>{item.quantity}</Text>
                                         <TouchableOpacity
                                             style={styles.qtyBtn}
                                             onPress={() => handleQuantityChange(item.id, 1)}
@@ -82,20 +93,20 @@ export default function CartScreen() {
                                         </TouchableOpacity>
                                     </View>
                                 </View>
-                                <View style={styles.divider} />
+                                <View style={[styles.divider, isDark && styles.dividerDark]} />
                             </View>
                         ))
                     )}
 
-                    <Text style={styles.sectionSubtitle}>Frequently added together</Text>
+                    <Text style={[styles.sectionSubtitle, isDark && styles.textDark]}>Frequently added together</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.addonsScroll}>
                         {RECOMMENDED_ADDONS.map(addon => (
-                            <TouchableOpacity key={addon.id} style={styles.addonCard}>
+                            <TouchableOpacity key={addon.id} style={[styles.addonCard, isDark && styles.addonCardDark]}>
                                 <View style={styles.addonInfo}>
-                                    <Text style={styles.addonName}>{addon.name}</Text>
-                                    <Text style={styles.addonPrice}>₹{addon.price}</Text>
+                                    <Text style={[styles.addonName, isDark && styles.textSecondaryDark]}>{addon.name}</Text>
+                                    <Text style={[styles.addonPrice, isDark && styles.textDark]}>₹{addon.price}</Text>
                                 </View>
-                                <TouchableOpacity style={styles.addButtonSmall}>
+                                <TouchableOpacity style={[styles.addButtonSmall, isDark && styles.addButtonSmallDark]}>
                                     <Text style={styles.addButtonTextSmall}>Add</Text>
                                 </TouchableOpacity>
                             </TouchableOpacity>
@@ -103,20 +114,20 @@ export default function CartScreen() {
                     </ScrollView>
                 </View>
 
-                <View style={styles.offerSection}>
+                <View style={[styles.offerSection, { backgroundColor: sectionBg, borderColor: borderColor }]}>
                     <View style={styles.offerRow}>
                         <IconSymbol name="percent" size={20} color="#009963" />
                         <View style={styles.offerContent}>
-                            <Text style={styles.offerTitle}>Coupons and offers</Text>
+                            <Text style={[styles.offerTitle, { color: textColor }]}>Coupons and offers</Text>
                             <Text style={styles.offerSubtitle}>1 offer available</Text>
                         </View>
-                        <IconSymbol name="chevron-right" size={20} color="#666" />
+                        <IconSymbol name="chevron-right" size={20} color={secondaryTextColor} />
                     </View>
                 </View>
 
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Add a tip to the professional</Text>
-                    <Text style={styles.tipSubtitle}>100% of the tip goes to the professional</Text>
+                <View style={[styles.section, { backgroundColor: sectionBg, borderColor: borderColor }]}>
+                    <Text style={[styles.sectionTitle, { color: textColor }]}>Add a tip to the professional</Text>
+                    <Text style={[styles.tipSubtitle, { color: secondaryTextColor }]}>100% of the tip goes to the professional</Text>
                     <View style={styles.tipContainer}>
                         {renderTipButton(25)}
                         {renderTipButton(50)}
@@ -125,17 +136,17 @@ export default function CartScreen() {
                     </View>
                 </View>
 
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Payment Summary</Text>
+                <View style={[styles.section, { backgroundColor: sectionBg, borderColor: borderColor }]}>
+                    <Text style={[styles.sectionTitle, { color: textColor }]}>Payment Summary</Text>
 
                     <View style={styles.billRow}>
-                        <Text style={styles.billLabel}>Item Total</Text>
-                        <Text style={styles.billValue}>₹{itemTotal}</Text>
+                        <Text style={[styles.billLabel, { color: secondaryTextColor }]}>Item Total</Text>
+                        <Text style={[styles.billValue, { color: textColor }]}>₹{itemTotal}</Text>
                     </View>
 
                     <View style={styles.billRow}>
-                        <Text style={styles.billLabel}>Taxes & Fee</Text>
-                        <Text style={styles.billValue}>₹{taxesAndFee}</Text>
+                        <Text style={[styles.billLabel, { color: secondaryTextColor }]}>Taxes & Fee</Text>
+                        <Text style={[styles.billValue, { color: textColor }]}>₹{taxesAndFee}</Text>
                     </View>
 
                     {tip > 0 && (
@@ -145,9 +156,9 @@ export default function CartScreen() {
                         </View>
                     )}
 
-                    <View style={styles.totalRow}>
-                        <Text style={styles.totalLabel}>Grand Total</Text>
-                        <Text style={styles.totalValue}>₹{finalTotal}</Text>
+                    <View style={[styles.totalRow, { borderTopColor: borderColor }]}>
+                        <Text style={[styles.totalLabel, { color: textColor }]}>Grand Total</Text>
+                        <Text style={[styles.totalValue, { color: textColor }]}>₹{finalTotal}</Text>
                     </View>
                 </View>
 
@@ -155,20 +166,21 @@ export default function CartScreen() {
 
             </ScrollView>
 
-            <View style={styles.footer}>
+            <View style={[styles.footer, { backgroundColor: sectionBg, borderColor: borderColor }]}>
                 <View style={styles.addressBar}>
                     <IconSymbol name="house.fill" size={16} color="#6E4CE5" />
-                    <Text style={styles.addressText} numberOfLines={1}>Home - 2167, Block E, Sector 21, Gur..</Text>
-                    <IconSymbol name="chevron-right" size={16} color="#666" />
+                    <Text style={[styles.addressText, { color: secondaryTextColor }]} numberOfLines={1}>Home - 2167, Block E, Sector 21, Gur..</Text>
+                    <IconSymbol name="chevron-right" size={16} color={secondaryTextColor} />
                 </View>
-                <TouchableOpacity
-                    style={[styles.payButton, items.length === 0 && { backgroundColor: '#ccc' }]}
-                    disabled={items.length === 0}
-                    onPress={() => router.push({ pathname: '/payment', params: { amount: finalTotal } })}
-                >
-                    <Text style={styles.payButtonTotal}>₹{finalTotal}</Text>
-                    <Text style={styles.payButtonText}>Select a slot</Text>
-                </TouchableOpacity>
+                {items.length > 0 && (
+                    <SwipeToPay
+                        totalAmount={finalTotal}
+                        onSwipeComplete={() => router.push({
+                            pathname: '/payment',
+                            params: { amount: finalTotal }
+                        })}
+                    />
+                )}
             </View>
         </SafeAreaView>
     );
@@ -178,17 +190,29 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F9F9F9',
-        // Removed manual padding adjustment since immersive mode handles it differently
+    },
+    containerDark: {
+        backgroundColor: '#121212',
     },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 20,
         paddingTop: 50,
-        paddingBottom: 16,
+        paddingBottom: 12,
         backgroundColor: '#fff',
         borderBottomWidth: 1,
         borderBottomColor: '#F0F0F0',
+    },
+    headerDark: {
+        backgroundColor: '#1E1E1E',
+        borderBottomColor: '#333',
+    },
+    textDark: {
+        color: '#FFF',
+    },
+    textSecondaryDark: {
+        color: '#AAA',
     },
     backButton: {
         marginRight: 16,
@@ -207,9 +231,12 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 16,
         marginBottom: 16,
-        // Removed heavy shadows for a cleaner, flatter "modern" look
         borderWidth: 1,
         borderColor: '#F0F0F0',
+    },
+    sectionDark: {
+        backgroundColor: '#1E1E1E',
+        borderColor: '#333',
     },
     cartItem: {
         marginBottom: 16,
@@ -253,6 +280,10 @@ const styles = StyleSheet.create({
         marginLeft: 12,
         flexShrink: 0,
     },
+    quantityControlDark: {
+        backgroundColor: '#222',
+        borderColor: '#444',
+    },
     qtyBtn: {
         paddingHorizontal: 8,
         paddingVertical: 2,
@@ -275,6 +306,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#F0F0F0',
         marginTop: 16,
     },
+    dividerDark: {
+        backgroundColor: '#333',
+    },
     sectionSubtitle: {
         fontSize: 15,
         fontFamily: 'Inter-SemiBold',
@@ -295,6 +329,10 @@ const styles = StyleSheet.create({
         marginRight: 12,
         width: 140,
         backgroundColor: '#fff',
+    },
+    addonCardDark: {
+        backgroundColor: '#222',
+        borderColor: '#444',
     },
     addonInfo: {
         marginBottom: 10,
@@ -317,6 +355,10 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingVertical: 6,
         alignItems: 'center',
+    },
+    addButtonSmallDark: {
+        backgroundColor: '#222',
+        borderColor: '#6E4CE5',
     },
     addButtonTextSmall: {
         fontSize: 12,
@@ -452,6 +494,10 @@ const styles = StyleSheet.create({
         elevation: 8,
         borderWidth: 1,
         borderColor: '#F0F0F0',
+    },
+    footerDark: {
+        backgroundColor: '#1E1E1E',
+        borderColor: '#333',
     },
     addressBar: {
         flexDirection: 'row',

@@ -1,5 +1,7 @@
+import { Colors } from '@/constants/theme';
+import { useTheme } from '@/context/ThemeContext';
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface ServiceCardProps {
     title: string;
@@ -10,21 +12,22 @@ interface ServiceCardProps {
 }
 
 export const ServiceCard: React.FC<ServiceCardProps> = ({ title, rating, price, imageUri, onAdd }) => {
+    const { isDark } = useTheme();
     return (
-        <View style={styles.container}>
-            <View style={styles.imageContainer}>
+        <View style={[styles.container, isDark && styles.containerDark]}>
+            <View style={[styles.imageContainer, isDark && styles.imageContainerDark]}>
                 <Image source={{ uri: imageUri }} style={styles.image} />
-                <View style={styles.ratingBadge}>
-                    <Text style={styles.ratingText}>★ {rating}</Text>
+                <View style={[styles.ratingBadge, { backgroundColor: isDark ? Colors.dark.backgroundSecondary : '#fff' }]}>
+                    <Text style={[styles.ratingText, { color: isDark ? Colors.dark.text : '#1A1A1A' }]}>★ {rating}</Text>
                 </View>
             </View>
 
             <View style={styles.content}>
-                <Text style={styles.title} numberOfLines={2}>{title}</Text>
-                <Text style={styles.price}>Starts at ${price}</Text>
+                <Text style={[styles.title, isDark && styles.textDark]} numberOfLines={2}>{title}</Text>
+                <Text style={[styles.price, isDark && styles.textSecondaryDark]}>Starts at ${price}</Text>
 
-                <TouchableOpacity style={styles.addButton} onPress={onAdd}>
-                    <Text style={styles.addButtonText}>Add</Text>
+                <TouchableOpacity style={[styles.addButton, isDark && styles.addButtonDark]} onPress={onAdd}>
+                    <Text style={[styles.addButtonText, isDark && styles.addButtonTextDark]}>Add</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -45,11 +48,24 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         overflow: 'hidden',
     },
+    containerDark: {
+        backgroundColor: '#1E1E1E',
+        elevation: 0,
+    },
+    textDark: {
+        color: '#FFF',
+    },
+    textSecondaryDark: {
+        color: '#AAA',
+    },
     imageContainer: {
         position: 'relative',
         backgroundColor: '#F0F0F0',
         borderRadius: 8,
         overflow: 'hidden',
+    },
+    imageContainerDark: {
+        backgroundColor: '#333',
     },
     image: {
         width: '100%',
@@ -79,7 +95,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter-Bold',
         color: '#1A1A1A',
         marginBottom: 4,
-        height: 38, 
+        height: 38,
     },
     price: {
         fontSize: 12,
@@ -95,10 +111,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 6,
     },
+    addButtonDark: {
+        backgroundColor: '#222',
+        borderColor: '#444',
+    },
     addButtonText: {
-        color: '#6F4E37', 
+        color: '#6F4E37',
         fontFamily: 'Inter-Bold',
         fontSize: 12,
         textTransform: 'uppercase',
+    },
+    addButtonTextDark: {
+        color: '#D2B48C',
     },
 });

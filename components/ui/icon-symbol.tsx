@@ -1,5 +1,5 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { SymbolWeight, SymbolViewProps } from 'expo-symbols';
+import { SymbolViewProps, SymbolWeight } from 'expo-symbols';
 import { ComponentProps } from 'react';
 import { OpaqueColorValue, type StyleProp, type TextStyle } from 'react-native';
 
@@ -20,6 +20,17 @@ const MAPPING = {
   'person.fill': 'person',
   'magnifyingglass': 'search',
   'slider.horizontal.3': 'tune',
+  'checkmark.shield.fill': 'verified-user',
+  'hands.sparkles.fill': 'clean-hands',
+  'certificate.fill': 'workspace-premium',
+  'arrow.left': 'arrow-back',
+  'gift.fill': 'redeem',
+  'credit-card': 'credit-card',
+  'account-balance': 'account-balance',
+  'google': 'google',
+  'account-balance-wallet': 'account-balance-wallet',
+  'more-horiz': 'more-horiz',
+  'plus': 'add',
 } as any;
 
 //here we are using the material icons 

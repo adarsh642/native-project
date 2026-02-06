@@ -1,225 +1,235 @@
+import { PaymentMethodCard } from '@/components/PaymentMethodCard';
+import { PaymentOptionItem } from '@/components/PaymentOptionItem';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Colors } from '@/constants/theme';
+import { useTheme } from '@/context/ThemeContext';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 export default function PaymentScreen() {
     const router = useRouter();
     const { amount } = useLocalSearchParams();
+    const { isDark } = useTheme();
+
+    const textColor = isDark ? Colors.dark.text : '#1A1A1A';
+    const secondaryTextColor = isDark ? Colors.dark.textSecondary : '#666';
+    const bgColor = isDark ? Colors.dark.background : '#fff';
+    const headerBg = '#7B1FA2'; // Deep purple for header
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                    <IconSymbol name="arrow.left" size={24} color="#1A1A1A" />
-                </TouchableOpacity>
-                <View>
-                    <Text style={styles.headerTitle}>Select payment method</Text>
-                    <Text style={styles.headerSubtitle}>Amount to pay: ₹{amount}</Text>
+        <View style={[styles.mainContainer, { backgroundColor: bgColor }]}>
+            <SafeAreaView style={{ backgroundColor: headerBg }}>
+                <View style={[styles.header, { backgroundColor: headerBg }]}>
+                    <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+                        <IconSymbol name="arrow.left" size={24} color="#fff" />
+                    </TouchableOpacity>
+                    <Text style={styles.headerTitle}>Payment Methods</Text>
+                    <View style={{ width: 24 }} />
                 </View>
-            </View>
+            </SafeAreaView>
 
-            <ScrollView contentContainerStyle={styles.scrollContent}>
+            <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+                <View style={styles.cardSection}>
+                    <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.cardScroll}
+                        snapToInterval={width * 0.75 + 16}
+                        decelerationRate="fast"
+                    >
+                        <TouchableOpacity style={styles.addCardButton}>
+                            <IconSymbol name="plus" size={32} color="#6A1B9A" />
+                        </TouchableOpacity>
 
-                <Text style={styles.sectionTitle}>Previous payment methods</Text>
-                <View style={styles.cardsGrid}>
-                    <TouchableOpacity style={styles.card}>
-                        <View style={styles.cardHeader}>
-                            <Text style={[styles.cardBrand, { color: '#1a1f71' }]}>VISA</Text>
-                            <IconSymbol name="chevron-right" size={16} color="#ccc" />
-                        </View>
-                        <View style={styles.cardBody}>
-                            <Text style={styles.cardName}>HDFC</Text>
-                            <Text style={styles.cardNumber}>•••• 1234</Text>
-                        </View>
-                    </TouchableOpacity>
+                        <PaymentMethodCard
+                            brand="VISA"
+                            name="RAKESH PRADHAN"
+                            number="**** **** **** 2512"
+                            expiry="02/31"
+                            isPrimary
+                        />
 
-                    <TouchableOpacity style={styles.card}>
-                        <View style={styles.cardHeader}>
-                            <Text style={[styles.cardBrand, { color: '#1a1f71' }]}>VISA</Text>
-                        </View>
-                        <View style={styles.cardBody}>
-                            <Text style={styles.cardExpiry}>Expired on 05/21</Text>
-                            <Text style={styles.cardName}>ICICI</Text>
-                            <Text style={styles.cardNumber}>•••• 5678</Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.card}>
-                        <View style={styles.cardHeader}>
-                            <Text style={[styles.cardBrand, { color: '#00baf2' }]}>paytm</Text>
-                            <IconSymbol name="chevron-right" size={16} color="#ccc" />
-                        </View>
-                        <View style={styles.cardBody}>
-                            <Text style={styles.cardName}>Paytm</Text>
-                            <Text style={styles.cardNumber}>₹1000</Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.card}>
-                        <View style={styles.cardHeader}>
-                            <Text style={[styles.cardBrand, { color: '#FF9900' }]}>pay</Text>
-                            <IconSymbol name="chevron-right" size={16} color="#ccc" />
-                        </View>
-                        <View style={styles.cardBody}>
-                            <Text style={styles.cardError}>Insufficient balance</Text>
-                            <Text style={styles.cardName}>Amazon Pay</Text>
-                            <Text style={styles.cardNumber}>₹100</Text>
-                        </View>
-                    </TouchableOpacity>
+                        <PaymentMethodCard
+                            brand="MASTERCARD"
+                            name="RAKESH PRADHAN"
+                            number="**** **** **** 8250"
+                            expiry="05/28"
+                        />
+                    </ScrollView>
                 </View>
 
-                <Text style={styles.sectionTitle}>UPI</Text>
-                <View style={styles.upiList}>
-                    <TouchableOpacity style={styles.upiItem}>
-                        <View style={styles.upiIconContainer}>
-                            <Text style={{ color: '#EA4335', fontWeight: 'bold' }}>G</Text>
-                        </View>
-                        <Text style={styles.upiName}>GPay</Text>
-                        <IconSymbol name="chevron-right" size={20} color="#ccc" />
-                    </TouchableOpacity>
+                <View style={styles.optionsSection}>
+                    <Text style={[styles.sectionTitle, { color: secondaryTextColor }]}>Other Payment Methods</Text>
 
-                    <TouchableOpacity style={styles.upiItem}>
-                        <View style={styles.upiIconContainer}>
-                            <Text style={{ color: '#FF9900', fontWeight: 'bold' }}>a</Text>
-                        </View>
-                        <Text style={styles.upiName}>Amazon Pay</Text>
-                        <IconSymbol name="chevron-right" size={20} color="#ccc" />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.upiItem}>
-                        <View style={styles.upiIconContainer}>
-                            <Text style={{ color: '#6739B7', fontWeight: 'bold' }}>Pe</Text>
-                        </View>
-                        <Text style={styles.upiName}>Phone Pe</Text>
-                        <IconSymbol name="chevron-right" size={20} color="#ccc" />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.upiItem}>
-                        <View style={styles.upiIconContainer}>
-                            <IconSymbol name="smartphone" size={18} color="#666" />
-                        </View>
-                        <Text style={styles.upiName}>Pay via another UPI</Text>
-                        <IconSymbol name="chevron-right" size={20} color="#ccc" />
-                    </TouchableOpacity>
+                    <View style={[styles.optionsContainer, isDark && styles.optionsContainerDark]}>
+                        <PaymentOptionItem
+                            icon="credit-card"
+                            title="Credit / Debit Card"
+                            iconBg="#00BCD4"
+                        />
+                        <View style={styles.divider} />
+                        <PaymentOptionItem
+                            icon="account-balance"
+                            title="Net Banking"
+                            iconBg="#FF7043"
+                        />
+                        <View style={styles.divider} />
+                        <PaymentOptionItem
+                            icon="google"
+                            title="Google Wallet"
+                            iconBg="#4285F4"
+                        />
+                        <View style={styles.divider} />
+                        <PaymentOptionItem
+                            icon="account-balance-wallet"
+                            title="PhonePe"
+                            iconBg="#673AB7"
+                        />
+                        <View style={styles.divider} />
+                        <PaymentOptionItem
+                            icon="more-horiz"
+                            title="Other Wallets"
+                            iconBg="#4CAF50"
+                        />
+                    </View>
                 </View>
             </ScrollView>
-        </SafeAreaView>
+
+            <View style={[styles.footer, isDark && styles.footerDark]}>
+                <View>
+                    <Text style={[styles.totalAmount, { color: textColor }]}>${amount || '0'}</Text>
+                    <TouchableOpacity>
+                        <Text style={styles.viewDetailsText}>View Details</Text>
+                    </TouchableOpacity>
+                </View>
+                <TouchableOpacity style={styles.payButton} onPress={() => console.log('Payment initiated')}>
+                    <Text style={styles.payButtonText}>Pay Now ➔</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    mainContainer: {
         flex: 1,
-        backgroundColor: '#fff',
     },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: '#f0f0f0',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        paddingTop: 10,
+        paddingBottom: 20,
     },
     backButton: {
-        marginRight: 16,
+        padding: 8,
     },
     headerTitle: {
         fontSize: 18,
         fontFamily: 'Inter-Bold',
-        color: '#1A1A1A',
-    },
-    headerSubtitle: {
-        fontSize: 12,
-        color: '#666',
-        fontFamily: 'Inter-Regular',
-        marginTop: 2,
+        color: '#fff',
     },
     scrollContent: {
-        padding: 20,
+        paddingBottom: 100,
     },
-    sectionTitle: {
-        fontSize: 16,
-        fontFamily: 'Inter-Bold',
-        color: '#1A1A1A',
-        marginBottom: 16,
-        marginTop: 10,
+    cardSection: {
+        paddingTop: 20,
+        paddingBottom: 30,
+        backgroundColor: '#7B1FA2',
+        borderBottomLeftRadius: 32,
+        borderBottomRightRadius: 32,
     },
-    cardsGrid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        marginBottom: 24,
+    cardScroll: {
+        paddingHorizontal: 20,
     },
-    card: {
-        width: '48%',
-        backgroundColor: '#F8F9FA',
-        borderRadius: 12,
-        padding: 16,
-        marginBottom: 16,
-        minHeight: 100,
-        justifyContent: 'space-between',
-    },
-    cardHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 12,
-    },
-    cardBrand: {
-        fontSize: 16,
-        fontWeight: '900',
-        fontStyle: 'italic',
-    },
-    cardBody: {
-    },
-    cardName: {
-        fontSize: 14,
-        fontFamily: 'Inter-SemiBold',
-        color: '#1A1A1A',
-        marginBottom: 4,
-    },
-    cardNumber: {
-        fontSize: 12,
-        color: '#666',
-        fontFamily: 'Inter-Medium',
-    },
-    cardExpiry: {
-        fontSize: 10,
-        color: '#D93025',
-        marginBottom: 4,
-        fontWeight: 'bold',
-    },
-    cardError: {
-        fontSize: 10,
-        color: '#D93025',
-        marginBottom: 4,
-        fontWeight: 'bold',
-    },
-    upiList: {
-        marginTop: 8,
-    },
-    upiItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: '#f0f0f0',
-    },
-    upiIconContainer: {
-        width: 40,
-        height: 40,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#eee',
+    addCardButton: {
+        width: 60,
+        height: 160,
+        backgroundColor: '#fff',
+        borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 16,
+        elevation: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+    },
+    optionsSection: {
+        padding: 20,
+    },
+    sectionTitle: {
+        fontSize: 14,
+        fontFamily: 'Inter-SemiBold',
+        marginBottom: 16,
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+    },
+    optionsContainer: {
         backgroundColor: '#fff',
+        borderRadius: 20,
+        overflow: 'hidden',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
     },
-    upiName: {
-        flex: 1,
-        fontSize: 16,
+    optionsContainerDark: {
+        backgroundColor: '#1E1E1E',
+    },
+    divider: {
+        height: 1,
+        backgroundColor: 'rgba(0,0,0,0.05)',
+        marginLeft: 68,
+    },
+    footer: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: '#fff',
+        padding: 24,
+        paddingBottom: 34,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderTopLeftRadius: 32,
+        borderTopRightRadius: 32,
+        elevation: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: -4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+    },
+    footerDark: {
+        backgroundColor: '#1E1E1E',
+    },
+    totalAmount: {
+        fontSize: 24,
+        fontFamily: 'Inter-Bold',
+    },
+    viewDetailsText: {
+        fontSize: 12,
+        color: '#7B1FA2',
         fontFamily: 'Inter-Medium',
-        color: '#1A1A1A',
+        marginTop: 2,
     },
+    payButton: {
+        backgroundColor: '#7B1FA2',
+        paddingHorizontal: 28,
+        paddingVertical: 14,
+        borderRadius: 20,
+        elevation: 4,
+    },
+    payButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontFamily: 'Inter-Bold',
+    }
 });

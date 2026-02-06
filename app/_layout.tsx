@@ -13,8 +13,10 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { CartProvider } from '@/context/CartContext';
+import { ThemeProvider as AppThemeProvider } from '@/context/ThemeContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export const unstable_settings = {
@@ -24,7 +26,7 @@ export const unstable_settings = {
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+function RootLayoutContent() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     ...MaterialIcons.font,
@@ -39,26 +41,37 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
       if (Platform.OS === 'android') {
         NavigationBar.setPositionAsync('absolute');
-        NavigationBar.setBackgroundColorAsync('#ffffff00');
+        NavigationBar.setBackgroundColorAsync(colorScheme === 'dark' ? '#12121200' : '#ffffff00');
+        NavigationBar.setButtonStyleAsync(colorScheme === 'dark' ? 'light' : 'dark');
         NavigationBar.setVisibilityAsync('hidden');
         NavigationBar.setBehaviorAsync('overlay-swipe');
       }
     }
-  }, [loaded]);
+  }, [loaded, colorScheme]);
 
   if (!loaded) {
     return null;
   }
 
   return (
-    <CartProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="payment" options={{ headerShown: false }} />
         </Stack>
-        <StatusBar style="auto" hidden />
+        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       </ThemeProvider>
-    </CartProvider>
+    </GestureHandlerRootView>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <AppThemeProvider>
+      <CartProvider>
+        <RootLayoutContent />
+      </CartProvider>
+    </AppThemeProvider>
   );
 }

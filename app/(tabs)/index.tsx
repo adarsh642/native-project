@@ -1,10 +1,15 @@
 import { Banner } from '@/components/Banner';
 import { CategoryItem } from '@/components/CategoryItem';
+import { ServiceCard } from '@/components/ServiceCard';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Colors } from '@/constants/theme';
+import { useTheme } from '@/context/ThemeContext';
 import React, { useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { ServiceCard } from '@/components/ServiceCard';
+import { FeatureBar } from '@/components/FeatureBar';
+import { RecommendedCard } from '@/components/RecommendedCard';
+import { ReviewCard } from '@/components/ReviewCard';
 import { useCart } from '@/context/CartContext';
 
 
@@ -47,35 +52,56 @@ const SERVICES = [
 const SERVICES_PACKAGES = [
   {
     id: '1',
-    title: 'Split AC Power Saver Service',
+    title: 'Kitchen Deep Cleaning',
+    subtitle: 'Deep clean for your kitchen including appliances.',
     rating: 4.8,
-    price: 19.00,
-    image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400',
+    price: 45,
+    image: 'https://images.unsplash.com/photo-1527368746281-798b65e1ac6e?w=600',
   },
   {
     id: '2',
-    title: 'Bathroom Deep Cleaning',
+    title: 'Pest Control Service',
+    subtitle: 'Effective treatment for common pests.',
     rating: 4.7,
-    price: 15.50,
-    image: 'https://images.herzindagi.info/image/2021/Jul/how-to-deep-clean-bathroom-like-a-professional-main.jpg',
+    price: 50,
+    image: 'https://images.unsplash.com/photo-1584622781564-1d9876a13d00?w=600',
   },
   {
     id: '3',
-    title: 'Sofa Deep Cleaning (3 Sofa Seats)',
+    title: 'Sofa Deep Cleaning',
+    subtitle: 'Remove stains and dust from your living space.',
     rating: 4.9,
-    price: 25.00,
-    image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400',
-  },
-  {
-    id: '4',
-    title: 'Men\'s Haircut & Grooming',
-    rating: 4.8,
-    price: 10.00,
-    image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400',
+    price: 25,
+    image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600',
   },
 ];
 
+const REVIEWS = [
+  {
+    id: '1',
+    name: 'Sarah J.',
+    review: 'Great service! The professionals were very polite and thorough.',
+    rating: 5,
+    avatarUri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100'
+  },
+  {
+    id: '2',
+    name: 'Junian D.',
+    review: 'Finished on time and left everything spotless!',
+    rating: 4,
+    avatarUri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100'
+  },
+  {
+    id: '3',
+    name: 'Ravin K.',
+    review: 'Very professional. Highly recommended for deep cleaning.',
+    rating: 5,
+    avatarUri: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100'
+  }
+];
+
 export default function HomeScreen() {
+  const { isDark } = useTheme();
   const [activeCategory, setActiveCategory] = useState('1');
   const { addToCart } = useCart();
 
@@ -89,18 +115,24 @@ export default function HomeScreen() {
     console.log('Added to cart:', pkg.title);
   };
 
+  const iconColor = isDark ? Colors.dark.icon : Colors.light.icon;
+  const textColor = isDark ? Colors.dark.text : Colors.light.text;
+  const secondaryTextColor = isDark ? Colors.dark.textSecondary : Colors.light.textSecondary;
+  const bgColor = isDark ? Colors.dark.background : Colors.light.background;
+  const searchBg = isDark ? Colors.dark.backgroundSecondary : Colors.light.backgroundSecondary;
+
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+    <SafeAreaView style={[styles.container, { backgroundColor: bgColor }]}>
+      <StatusBar barStyle={isDark ? "light-content" : "dark-content"} backgroundColor={bgColor} />
 
       <View style={styles.header}>
         <View>
-          <Text style={styles.greeting}>Good Morning,</Text>
-          <Text style={styles.location}>New York, USA ▼</Text>
+          <Text style={[styles.greeting, isDark && styles.textSecondaryDark]}>Good Morning,</Text>
+          <Text style={[styles.location, isDark && styles.textDark]}>New York, USA ▼</Text>
         </View>
         <View style={styles.headerRight}>
           <TouchableOpacity style={styles.notificationButton}>
-            <IconSymbol name="bell.fill" size={24} color="#1A1A1A" />
+            <IconSymbol name="bell.fill" size={24} color={iconColor} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.profileButton}>
             <Image
@@ -112,12 +144,12 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.searchContainer}>
-        <View style={styles.searchBar}>
-          <IconSymbol name="magnifyingglass" size={20} color="#888" />
+        <View style={[styles.searchBar, { backgroundColor: searchBg }]}>
+          <IconSymbol name="magnifyingglass" size={20} color={secondaryTextColor} />
           <TextInput
-            style={styles.searchInput}
+            style={[styles.searchInput, { color: textColor }]}
             placeholder="Search for 'AC Repair'"
-            placeholderTextColor="#999"
+            placeholderTextColor={secondaryTextColor}
           />
         </View>
       </View>
@@ -131,7 +163,7 @@ export default function HomeScreen() {
 
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Category</Text>
+            <Text style={[styles.sectionTitle, isDark && styles.textDark]}>Category</Text>
           </View>
           <ScrollView
             horizontal
@@ -152,7 +184,7 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Most Booked Services</Text>
+          <Text style={[styles.sectionTitle, isDark && styles.textDark]}>Most Booked Services</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.productsList}>
             {SERVICES_PACKAGES.map((pkg) => (
               <ServiceCard
@@ -166,6 +198,49 @@ export default function HomeScreen() {
             ))}
           </ScrollView>
         </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, isDark && styles.textDark]}>Recommended for You</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.productsList}>
+            {SERVICES_PACKAGES.map((pkg) => (
+              <RecommendedCard
+                key={pkg.id}
+                title={pkg.title}
+                subtitle={pkg.subtitle!}
+                price={pkg.price}
+                imageUri={pkg.image}
+                onAdd={() => handleAddToCart(pkg)}
+              />
+            ))}
+          </ScrollView>
+        </View>
+
+        <FeatureBar />
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, isDark && styles.textDark]}>Customer Reviews</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.productsList}>
+            {REVIEWS.map((review) => (
+              <ReviewCard
+                key={review.id}
+                name={review.name}
+                review={review.review}
+                rating={review.rating}
+                avatarUri={review.avatarUri}
+                comment={review.review}
+              />
+            ))}
+          </ScrollView>
+        </View>
+
+        <TouchableOpacity style={styles.promoBanner}>
+          <View style={styles.promoContent}>
+            <View style={styles.giftContainer}>
+              <IconSymbol name="gift.fill" size={32} color="#fff" />
+            </View>
+            <Text style={styles.promoText}>Invite a friend and get $10 off your next booking!</Text>
+          </View>
+        </TouchableOpacity>
 
         <View style={{ height: 100 }} />
 
@@ -182,6 +257,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingTop: 30,
+  },
+  containerDark: {
+    backgroundColor: '#121212',
+  },
+  textDark: {
+    color: '#FFF',
+  },
+  textSecondaryDark: {
+    color: '#AAA',
   },
   header: {
     flexDirection: 'row',
@@ -202,6 +286,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 25,
+  },
+  searchBarDark: {
+    backgroundColor: '#1E1E1E',
   },
   searchInput: {
     flex: 1,
@@ -277,5 +364,40 @@ const styles = StyleSheet.create({
   },
   productsList: {
     paddingHorizontal: 20,
+    paddingBottom: 8,
   },
+  promoBanner: {
+    marginHorizontal: 20,
+    borderRadius: 16,
+    overflow: 'hidden',
+    backgroundColor: '#9C27B0', // More vibrant purple matching mockup better
+    marginTop: 8,
+    marginBottom: 40,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  promoContent: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 20,
+  },
+  giftContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 16,
+  },
+  promoText: {
+    flex: 1,
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: 'Inter-SemiBold',
+  }
 });
