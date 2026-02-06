@@ -1,7 +1,7 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // Mock Data for Cart Items
 import { useCart } from '@/context/CartContext';
@@ -63,24 +63,25 @@ export default function CartScreen() {
                         items.map((item) => (
                             <View key={item.id} style={styles.cartItem}>
                                 <View style={styles.itemRow}>
-                                    <Text style={styles.itemName}>{item.name}</Text>
-                                    <View style={styles.priceContainer}>
+                                    <Image source={{ uri: item.image }} style={styles.itemImage} />
+                                    <View style={styles.itemDetails}>
+                                        <Text style={styles.itemName} numberOfLines={2}>{item.name}</Text>
                                         <Text style={styles.itemPrice}>₹{item.price}</Text>
-                                        <View style={styles.quantityControl}>
-                                            <TouchableOpacity
-                                                style={styles.qtyBtn}
-                                                onPress={() => item.quantity === 1 ? removeFromCart(item.id) : handleQuantityChange(item.id, -1)}
-                                            >
-                                                <Text style={styles.qtyBtnText}>-</Text>
-                                            </TouchableOpacity>
-                                            <Text style={styles.qtyText}>{item.quantity}</Text>
-                                            <TouchableOpacity
-                                                style={styles.qtyBtn}
-                                                onPress={() => handleQuantityChange(item.id, 1)}
-                                            >
-                                                <Text style={styles.qtyBtnText}>+</Text>
-                                            </TouchableOpacity>
-                                        </View>
+                                    </View>
+                                    <View style={styles.quantityControl}>
+                                        <TouchableOpacity
+                                            style={styles.qtyBtn}
+                                            onPress={() => item.quantity === 1 ? removeFromCart(item.id) : handleQuantityChange(item.id, -1)}
+                                        >
+                                            <Text style={styles.qtyBtnText}>-</Text>
+                                        </TouchableOpacity>
+                                        <Text style={styles.qtyText}>{item.quantity}</Text>
+                                        <TouchableOpacity
+                                            style={styles.qtyBtn}
+                                            onPress={() => handleQuantityChange(item.id, 1)}
+                                        >
+                                            <Text style={styles.qtyBtnText}>+</Text>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                                 <View style={styles.divider} />
@@ -221,23 +222,30 @@ const styles = StyleSheet.create({
     },
     itemRow: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
+        alignItems: 'center',
+    },
+    itemImage: {
+        width: 60,
+        height: 60,
+        borderRadius: 8,
+        marginRight: 12,
+        backgroundColor: '#f0f0f0',
+    },
+    itemDetails: {
+        flex: 1,
+        justifyContent: 'center',
     },
     itemName: {
-        fontSize: 16,
+        fontSize: 15,
         fontFamily: 'Inter-Medium',
         color: '#1A1A1A',
-        flex: 1,
-    },
-    priceContainer: {
-        alignItems: 'flex-end',
+        marginBottom: 4,
+        lineHeight: 20,
     },
     itemPrice: {
-        fontSize: 16,
+        fontSize: 15,
         fontFamily: 'Inter-Bold',
         color: '#1A1A1A',
-        marginBottom: 8,
     },
     quantityControl: {
         flexDirection: 'row',
@@ -245,15 +253,17 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#E0E0E0',
         borderRadius: 8,
-        paddingVertical: 4,
+        paddingVertical: 6,
         paddingHorizontal: 8,
         backgroundColor: '#fff',
+        marginLeft: 10,
+        flexShrink: 0,
     },
     qtyBtn: {
-        paddingHorizontal: 8,
+        paddingHorizontal: 10,
     },
     qtyBtnText: {
-        fontSize: 18,
+        fontSize: 16,
         color: '#6E4CE5',
         fontWeight: 'bold',
     },
@@ -261,10 +271,12 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: 'Inter-Medium',
         marginHorizontal: 8,
+        minWidth: 16,
+        textAlign: 'center',
     },
     divider: {
         height: 1,
-        backgroundColor: '#eee',
+        backgroundColor: '#f0f0f0',
         marginTop: 16,
     },
     sectionSubtitle: {
