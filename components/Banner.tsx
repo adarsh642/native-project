@@ -4,7 +4,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Dimensions
 const { width } = Dimensions.get('window');
 const CARD_MARGIN = 20;
 const CARD_WIDTH = width - (CARD_MARGIN * 2);
-
+//here we are usin
 export interface BannerSlide {
   id: string;
   imageUri: string;
@@ -12,12 +12,12 @@ export interface BannerSlide {
   subtitle?: string;
   buttonText: string;
 }
-
+//here we are using the banner slide interface to define the slides
 interface BannerProps {
   slides: BannerSlide[];
   onPress: (slide: BannerSlide) => void;
 }
-
+//here we are using the banner components to display the slides
 export const Banner: React.FC<BannerProps> = ({ slides, onPress }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -29,7 +29,7 @@ export const Banner: React.FC<BannerProps> = ({ slides, onPress }) => {
       setActiveIndex(roundIndex);
     }
   };
-
+//here we are using the banner components to display the slides 
   return (
     <View style={styles.wrapper}>
       <ScrollView
@@ -60,7 +60,6 @@ export const Banner: React.FC<BannerProps> = ({ slides, onPress }) => {
         ))}
       </ScrollView>
 
-     
       <View style={styles.pagination}>
         {slides.map((_, index) => (
           <View
@@ -75,7 +74,7 @@ export const Banner: React.FC<BannerProps> = ({ slides, onPress }) => {
     </View>
   );
 };
-
+//here we are using the styles to define the styles of the banner 
 const styles = StyleSheet.create({
   wrapper: {
     marginBottom: 20,
