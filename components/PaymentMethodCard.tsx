@@ -15,6 +15,13 @@ interface PaymentMethodCardProps {
     isPrimary?: boolean;
 }
 
+const brandStyles: Record<string, { bg: string; shadow: string; accent: string }> = {
+    VISA: { bg: '#000000', shadow: '#000000', accent: '#ffffff' },
+    MASTERCARD: { bg: '#1C1C1E', shadow: '#000000', accent: '#ffffff' },
+    PAYTM: { bg: '#2C2C2E', shadow: '#000000', accent: '#ffffff' },
+    AMAZON: { bg: '#3A3A3C', shadow: '#000000', accent: '#ffffff' },
+};
+
 export const PaymentMethodCard: React.FC<PaymentMethodCardProps> = ({
     brand,
     name,
@@ -25,17 +32,14 @@ export const PaymentMethodCard: React.FC<PaymentMethodCardProps> = ({
     isPrimary
 }) => {
     const { isDark } = useTheme();
-
-    // Brand colors
-    const brandStyles = {
-        VISA: { color: '#ffffff', brandText: 'VISA', logoColor: '#fff' },
-        MASTERCARD: { color: '#ffffff', brandText: 'Mastercard', logoColor: '#fff' },
-        PAYTM: { color: '#ffffff', brandText: 'paytm', logoColor: '#00baf2' },
-        AMAZON: { color: '#ffffff', brandText: 'amazon pay', logoColor: '#FF9900' },
-    };
+    const style = brandStyles[brand] || brandStyles.VISA;
 
     return (
-        <View style={[styles.container, isPrimary && styles.primaryCard]}>
+        <View style={[
+            styles.container,
+            { backgroundColor: style.bg, shadowColor: style.shadow },
+            isPrimary && styles.primaryCard
+        ]}>
             <View style={styles.header}>
                 <View style={styles.brandContainer}>
                     {brand === 'VISA' && <Text style={styles.visaText}>VISA</Text>}
@@ -74,19 +78,18 @@ const styles = StyleSheet.create({
     container: {
         width: CARD_WIDTH,
         height: 160,
-        backgroundColor: '#4A148C', // Deep purple
-        borderRadius: 20,
-        padding: 20,
+        borderRadius: 24,
+        padding: 24,
         marginRight: 16,
         justifyContent: 'space-between',
-        elevation: 8,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
+        shadowOffset: { width: 0, height: 10 },
         shadowOpacity: 0.3,
-        shadowRadius: 6,
+        shadowRadius: 15,
+        elevation: 10,
     },
     primaryCard: {
-        backgroundColor: '#6A1B9A',
+        borderWidth: 2,
+        borderColor: 'rgba(255, 255, 255, 0.3)',
     },
     header: {
         flexDirection: 'row',

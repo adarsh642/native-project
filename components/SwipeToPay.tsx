@@ -20,16 +20,15 @@ const SWIPE_RANGE = SCREEN_WIDTH - 64 - 60; // Container width (minus margins) -
 interface SwipeToPayProps {
     onSwipeComplete: () => void;
     totalAmount: number;
+    label?: string; // e.g. "Slide to book"
 }
 
-export const SwipeToPay: React.FC<SwipeToPayProps> = ({ onSwipeComplete, totalAmount }) => {
+export const SwipeToPay: React.FC<SwipeToPayProps> = ({ onSwipeComplete, totalAmount, label = "Slide to pay" }) => {
     const { isDark } = useTheme();
     const translateX = useSharedValue(0);
 
     useFocusEffect(
         React.useCallback(() => {
-            // Reset the swipe button position strictly without spring if preferred, but usually a small spring is better.
-            // However, "remove animation" might mean just the extra effects.
             translateX.value = 0;
         }, [translateX])
     );
@@ -47,7 +46,7 @@ export const SwipeToPay: React.FC<SwipeToPayProps> = ({ onSwipeComplete, totalAm
                 runOnJS(Haptics.notificationAsync)(Haptics.NotificationFeedbackType.Success);
                 runOnJS(onSwipeComplete)();
             } else {
-                translateX.value = 0;
+                translateX.value = withSpring(0, { damping: 20 });
             }
         });
 
@@ -79,12 +78,12 @@ export const SwipeToPay: React.FC<SwipeToPayProps> = ({ onSwipeComplete, totalAm
         <View style={[styles.container, isDark && styles.containerDark]}>
             <View style={styles.track}>
                 <Animated.Text style={[styles.swipeText, animatedTextStyle, isDark && styles.textDark]}>
-                    Slide to pay ₹{totalAmount}
+                    {label} ₹{totalAmount}
                 </Animated.Text>
             </View>
             <GestureDetector gesture={gesture}>
-                <Animated.View style={[styles.swipeButton, animatedButtonStyle]}>
-                    <MaterialIcons name="chevron-right" size={32} color="#FFF" />
+                <Animated.View style={[styles.swipeButton, animatedButtonStyle, isDark && styles.swipeButtonDark]}>
+                    <MaterialIcons name="chevron-right" size={32} color={isDark ? "#000" : "#FFF"} />
                 </Animated.View>
             </GestureDetector>
         </View>
@@ -129,5 +128,8 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
+    },
+    swipeButtonDark: {
+        backgroundColor: '#FFF',
     },
 });

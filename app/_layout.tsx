@@ -40,11 +40,8 @@ function RootLayoutContent() {
     if (loaded) {
       SplashScreen.hideAsync();
       if (Platform.OS === 'android') {
-        NavigationBar.setPositionAsync('absolute');
-        NavigationBar.setBackgroundColorAsync(colorScheme === 'dark' ? '#12121200' : '#ffffff00');
         NavigationBar.setButtonStyleAsync(colorScheme === 'dark' ? 'light' : 'dark');
         NavigationBar.setVisibilityAsync('hidden');
-        NavigationBar.setBehaviorAsync('overlay-swipe');
       }
     }
   }, [loaded, colorScheme]);
@@ -56,9 +53,10 @@ function RootLayoutContent() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="payment" options={{ headerShown: false }} />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="payment" />
+          <Stack.Screen name="service-details" />
         </Stack>
         <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       </ThemeProvider>

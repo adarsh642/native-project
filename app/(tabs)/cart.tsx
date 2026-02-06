@@ -174,6 +174,7 @@ export default function CartScreen() {
                 </View>
                 {items.length > 0 && (
                     <SwipeToPay
+                        label="Slide to Pay"
                         totalAmount={finalTotal}
                         onSwipeComplete={() => router.push({
                             pathname: '/payment',

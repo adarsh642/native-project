@@ -9,12 +9,17 @@ interface ServiceCardProps {
     price: number;
     imageUri: string;
     onAdd: () => void;
+    onPress?: () => void;
 }
 
-export const ServiceCard: React.FC<ServiceCardProps> = ({ title, rating, price, imageUri, onAdd }) => {
+export const ServiceCard: React.FC<ServiceCardProps> = ({ title, rating, price, imageUri, onAdd, onPress }) => {
     const { isDark } = useTheme();
     return (
-        <View style={[styles.container, isDark && styles.containerDark]}>
+        <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={onPress}
+            style={[styles.container, isDark && styles.containerDark]}
+        >
             <View style={[styles.imageContainer, isDark && styles.imageContainerDark]}>
                 <Image source={{ uri: imageUri }} style={styles.image} />
                 <View style={[styles.ratingBadge, { backgroundColor: isDark ? Colors.dark.backgroundSecondary : '#fff' }]}>
@@ -24,13 +29,19 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ title, rating, price, 
 
             <View style={styles.content}>
                 <Text style={[styles.title, isDark && styles.textDark]} numberOfLines={2}>{title}</Text>
-                <Text style={[styles.price, isDark && styles.textSecondaryDark]}>Starts at ${price}</Text>
+                <Text style={[styles.price, isDark && styles.textSecondaryDark]}>Starts at ₹{price}</Text>
 
-                <TouchableOpacity style={[styles.addButton, isDark && styles.addButtonDark]} onPress={onAdd}>
+                <TouchableOpacity
+                    style={[styles.addButton, isDark && styles.addButtonDark]}
+                    onPress={(e) => {
+                        e.stopPropagation();
+                        onAdd();
+                    }}
+                >
                     <Text style={[styles.addButtonText, isDark && styles.addButtonTextDark]}>Add</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 

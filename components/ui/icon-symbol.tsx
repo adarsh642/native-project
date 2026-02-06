@@ -1,3 +1,4 @@
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { SymbolViewProps, SymbolWeight } from 'expo-symbols';
 import { ComponentProps } from 'react';
@@ -27,10 +28,24 @@ const MAPPING = {
   'gift.fill': 'redeem',
   'credit-card': 'credit-card',
   'account-balance': 'account-balance',
-  'google': 'google',
+  'google': { set: 'MaterialCommunityIcons', name: 'google' },
+  'google-pay': { set: 'MaterialCommunityIcons', name: 'google' },
   'account-balance-wallet': 'account-balance-wallet',
   'more-horiz': 'more-horiz',
   'plus': 'add',
+  'amazon': { set: 'MaterialCommunityIcons', name: 'amazon' },
+  'content-cut': 'content-cut',
+  'handyman': 'handyman',
+  'ac-unit': 'ac-unit',
+  'bathtub': 'bathtub',
+  'kitchen': 'kitchen',
+  'chair': 'chair',
+  'spa': 'spa',
+  'face': 'face',
+  'brush': 'brush',
+  'power': 'power',
+  'plumbing': 'plumbing',
+  'local-fire-department': 'local-fire-department',
 } as any;
 
 //here we are using the material icons 
@@ -46,5 +61,13 @@ export function IconSymbol({
   style?: StyleProp<TextStyle>;
   weight?: SymbolWeight;
 }) {
-  return <MaterialIcons color={color} size={size} name={MAPPING[name]} style={style} />;
+  const mapping = MAPPING[name];
+
+  if (mapping && typeof mapping === 'object') {
+    if (mapping.set === 'MaterialCommunityIcons') {
+      return <MaterialCommunityIcons color={color} size={size} name={mapping.name} style={style} />;
+    }
+  }
+
+  return <MaterialIcons color={color} size={size} name={typeof mapping === 'string' ? mapping : mapping?.name} style={style} />;
 }

@@ -1,9 +1,11 @@
 import { Banner } from '@/components/Banner';
+import { CartNotification } from '@/components/CartNotification';
 import { CategoryItem } from '@/components/CategoryItem';
 import { ServiceCard } from '@/components/ServiceCard';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useTheme } from '@/context/ThemeContext';
+import * as Haptics from 'expo-haptics';
 import React, { useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
@@ -11,6 +13,7 @@ import { FeatureBar } from '@/components/FeatureBar';
 import { RecommendedCard } from '@/components/RecommendedCard';
 import { ReviewCard } from '@/components/ReviewCard';
 import { useCart } from '@/context/CartContext';
+import { useRouter } from 'expo-router';
 
 
 const BANNER_SLIDES = [
@@ -101,9 +104,20 @@ const REVIEWS = [
 ];
 
 export default function HomeScreen() {
+  const router = useRouter();
   const { isDark } = useTheme();
   const [activeCategory, setActiveCategory] = useState('1');
   const { addToCart } = useCart();
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMsg, setNotificationMsg] = useState('');
+
+  const handleCategoryPress = (id: string, title: string) => {
+    if (title === 'All' || title === 'More') {
+      router.push('/categories');
+    } else {
+      setActiveCategory(id);
+    }
+  };
 
   const handleAddToCart = (pkg: any) => {
     addToCart({
@@ -112,7 +126,9 @@ export default function HomeScreen() {
       price: pkg.price,
       image: pkg.image,
     });
-    console.log('Added to cart:', pkg.title);
+    setNotificationMsg(`${pkg.title} added to cart!`);
+    setShowNotification(true);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };
 
   const iconColor = isDark ? Colors.dark.icon : Colors.light.icon;
@@ -123,6 +139,12 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: bgColor }]}>
+      <CartNotification
+        visible={showNotification}
+        message={notificationMsg}
+        onHide={() => setShowNotification(false)}
+        onViewCart={() => router.push('/(tabs)/cart')}
+      />
       <StatusBar barStyle={isDark ? "light-content" : "dark-content"} backgroundColor={bgColor} />
 
       <View style={styles.header}>
@@ -176,7 +198,7 @@ export default function HomeScreen() {
                   title={cat.title}
                   icon={cat.icon as any}
                   isActive={activeCategory === cat.id}
-                  onPress={() => setActiveCategory(cat.id)}
+                  onPress={() => handleCategoryPress(cat.id, cat.title)}
                 />
               </View>
             ))}
@@ -194,6 +216,17 @@ export default function HomeScreen() {
                 price={pkg.price}
                 imageUri={pkg.image}
                 onAdd={() => handleAddToCart(pkg)}
+                onPress={() => router.push({
+                  pathname: '/service-details',
+                  params: {
+                    id: pkg.id,
+                    title: pkg.title,
+                    price: pkg.price.toString(),
+                    image: pkg.image,
+                    rating: pkg.rating.toString(),
+                    subtitle: pkg.subtitle || ''
+                  }
+                })}
               />
             ))}
           </ScrollView>

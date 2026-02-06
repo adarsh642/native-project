@@ -35,20 +35,27 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 14,
+        paddingVertical: 16,
         paddingHorizontal: 16,
     },
     iconContainer: {
-        width: 36,
-        height: 36,
-        borderRadius: 18,
+        width: 44,
+        height: 44,
+        borderRadius: 14,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 16,
+        backgroundColor: '#f1f5f9', // Updated to soft grey
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
+        elevation: 2,
     },
     title: {
         flex: 1,
         fontSize: 15,
-        fontFamily: 'Inter-Medium',
+        fontFamily: 'Inter-SemiBold',
+        letterSpacing: -0.2,
     }
 });

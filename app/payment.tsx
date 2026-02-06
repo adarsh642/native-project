@@ -14,10 +14,10 @@ export default function PaymentScreen() {
     const { amount } = useLocalSearchParams();
     const { isDark } = useTheme();
 
-    const textColor = isDark ? Colors.dark.text : '#1A1A1A';
-    const secondaryTextColor = isDark ? Colors.dark.textSecondary : '#666';
-    const bgColor = isDark ? Colors.dark.background : '#fff';
-    const headerBg = '#7B1FA2'; // Deep purple for header
+    const textColor = isDark ? Colors.dark.text : '#000000';
+    const secondaryTextColor = isDark ? Colors.dark.textSecondary : '#4B5563';
+    const bgColor = isDark ? Colors.dark.background : '#FFFFFF';
+    const headerBg = '#000000'; // Deep Black for Monochrome theme
 
     return (
         <View style={[styles.mainContainer, { backgroundColor: bgColor }]}>
@@ -68,31 +68,37 @@ export default function PaymentScreen() {
                         <PaymentOptionItem
                             icon="credit-card"
                             title="Credit / Debit Card"
-                            iconBg="#00BCD4"
+                            iconBg="#000000"
                         />
                         <View style={styles.divider} />
                         <PaymentOptionItem
                             icon="account-balance"
                             title="Net Banking"
-                            iconBg="#FF7043"
+                            iconBg="#333333"
                         />
                         <View style={styles.divider} />
                         <PaymentOptionItem
-                            icon="google"
+                            icon="google-pay"
                             title="Google Wallet"
-                            iconBg="#4285F4"
+                            iconBg="#444444"
+                        />
+                        <View style={styles.divider} />
+                        <PaymentOptionItem
+                            icon="amazon"
+                            title="Amazon Pay"
+                            iconBg="#555555"
                         />
                         <View style={styles.divider} />
                         <PaymentOptionItem
                             icon="account-balance-wallet"
                             title="PhonePe"
-                            iconBg="#673AB7"
+                            iconBg="#666666"
                         />
                         <View style={styles.divider} />
                         <PaymentOptionItem
                             icon="more-horiz"
                             title="Other Wallets"
-                            iconBg="#4CAF50"
+                            iconBg="#777777"
                         />
                     </View>
                 </View>
@@ -122,7 +128,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 16,
-        paddingTop: 10,
+        paddingTop: 40, // Increased padding
         paddingBottom: 20,
     },
     backButton: {
@@ -132,53 +138,61 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'Inter-Bold',
         color: '#fff',
+        letterSpacing: -0.5,
     },
     scrollContent: {
-        paddingBottom: 100,
+        paddingBottom: 120,
     },
     cardSection: {
-        paddingTop: 20,
-        paddingBottom: 30,
-        backgroundColor: '#7B1FA2',
-        borderBottomLeftRadius: 32,
-        borderBottomRightRadius: 32,
+        paddingTop: 10,
+        paddingBottom: 40,
+        backgroundColor: '#000000',
+        borderBottomLeftRadius: 40,
+        borderBottomRightRadius: 40,
+        shadowColor: '#000000',
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.3,
+        shadowRadius: 20,
+        elevation: 20,
     },
     cardScroll: {
         paddingHorizontal: 20,
     },
     addCardButton: {
-        width: 60,
+        width: 64,
         height: 160,
-        backgroundColor: '#fff',
-        borderRadius: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.2)', // Semi-transparent for premium look
+        borderRadius: 24,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 16,
-        elevation: 4,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.3)',
+        borderStyle: 'dashed',
     },
     optionsSection: {
-        padding: 20,
+        padding: 24,
+        marginTop: 10,
     },
     sectionTitle: {
-        fontSize: 14,
-        fontFamily: 'Inter-SemiBold',
+        fontSize: 13,
+        fontFamily: 'Inter-Bold',
         marginBottom: 16,
         textTransform: 'uppercase',
-        letterSpacing: 1,
+        letterSpacing: 1.5,
+        opacity: 0.8,
     },
     optionsContainer: {
         backgroundColor: '#fff',
-        borderRadius: 20,
+        borderRadius: 24,
         overflow: 'hidden',
-        elevation: 2,
+        borderWidth: 1,
+        borderColor: '#e2e8f0', // Soft border
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.1,
-        shadowRadius: 2,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+        elevation: 2,
     },
     optionsContainerDark: {
         backgroundColor: '#1E1E1E',
@@ -195,37 +209,45 @@ const styles = StyleSheet.create({
         right: 0,
         backgroundColor: '#fff',
         padding: 24,
-        paddingBottom: 34,
+        paddingBottom: 40,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         borderTopLeftRadius: 32,
         borderTopRightRadius: 32,
-        elevation: 20,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: -4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
+        shadowOffset: { width: 0, height: -10 },
+        shadowOpacity: 0.05,
+        shadowRadius: 15,
+        elevation: 10,
+        borderWidth: 1,
+        borderColor: '#f1f5f9',
     },
     footerDark: {
         backgroundColor: '#1E1E1E',
+        borderColor: '#334155',
     },
     totalAmount: {
-        fontSize: 24,
+        fontSize: 28,
         fontFamily: 'Inter-Bold',
+        letterSpacing: -1,
     },
     viewDetailsText: {
         fontSize: 12,
-        color: '#7B1FA2',
-        fontFamily: 'Inter-Medium',
+        color: '#000000',
+        fontFamily: 'Inter-SemiBold',
         marginTop: 2,
     },
     payButton: {
-        backgroundColor: '#7B1FA2',
-        paddingHorizontal: 28,
-        paddingVertical: 14,
+        backgroundColor: '#000000',
+        paddingHorizontal: 32,
+        paddingVertical: 16,
         borderRadius: 20,
-        elevation: 4,
+        shadowColor: '#000000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 5,
     },
     payButtonText: {
         color: '#fff',
