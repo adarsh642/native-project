@@ -7,8 +7,7 @@ import { Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput
 import { ServiceCard } from '@/components/ServiceCard';
 import { useCart } from '@/context/CartContext';
 
-// Mock Data
-// Mock Data - Urban Company Style Services
+
 const BANNER_SLIDES = [
   {
     id: '1',
@@ -94,7 +93,6 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
-      {/* Header */}
       <View style={styles.header}>
         <View>
           <Text style={styles.greeting}>Good Morning,</Text>
@@ -113,7 +111,6 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      {/* Search Bar */}
       <View style={styles.searchContainer}>
         <View style={styles.searchBar}>
           <IconSymbol name="magnifyingglass" size={20} color="#888" />
@@ -127,13 +124,11 @@ export default function HomeScreen() {
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
 
-        {/* Banner Carousel */}
         <Banner
           slides={BANNER_SLIDES}
           onPress={(slide) => console.log('Banner Pressed', slide.title)}
         />
 
-        {/* Category Scroll Row (Urban Style) */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Category</Text>
@@ -156,7 +151,6 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
-        {/* Most Booked Services */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Most Booked Services</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.productsList}>
@@ -173,7 +167,6 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
-        {/* Padding for Floating Bar */}
         <View style={{ height: 100 }} />
 
       </ScrollView>
@@ -188,14 +181,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 30, // For simple status bar gap if SafeArea doesn't handle fully
+    paddingTop: 30,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    marginBottom: 10, // Reduced margin to fit search bar
+    marginBottom: 10,
   },
   searchContainer: {
     paddingHorizontal: 20,
@@ -279,7 +272,7 @@ const styles = StyleSheet.create({
   },
   categoryItemWrapper: {
     alignItems: 'center',
-    width: 80, // Fixed width for scroll consistency
+    width: 80,
     marginRight: 15,
   },
   productsList: {

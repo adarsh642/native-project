@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, SafeAreaView, StatusBar, TextInput, TouchableOpacity, Image } from 'react-native';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import React, { useState } from 'react';
+import { Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const INITIAL_BOOKINGS = [
     {
@@ -84,7 +84,7 @@ export default function BookingsScreen() {
                 <Text style={styles.headerTitle}>My Bookings</Text>
             </View>
 
-            {/* Search Row */}
+
             <View style={styles.searchContainer}>
                 <View style={styles.searchBar}>
                     <IconSymbol name="magnifyingglass" size={20} color="#888" />
@@ -98,7 +98,6 @@ export default function BookingsScreen() {
                 </View>
             </View>
 
-            {/* Filter Bar */}
             <View style={styles.filterContainer}>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterScroll}>
                     {filters.map((filter) => (
@@ -127,18 +126,15 @@ export default function BookingsScreen() {
                                 <Image source={{ uri: booking.imageUri }} style={styles.serviceImage} />
                             </View>
                             <View style={styles.bookingInfo}>
-                                {/* Top Row: Service Name & Status */}
                                 <View style={styles.cardHeader}>
                                     <Text style={styles.serviceName}>{booking.serviceName}</Text>
                                 </View>
 
-                                {/* Middle Row: Date & Time */}
                                 <View style={styles.detailsRow}>
                                     <IconSymbol name="calendar.fill" size={14} color="#666" />
                                     <Text style={styles.detailText}>{booking.date} at {booking.time}</Text>
                                 </View>
 
-                                {/* Status moved after date and time */}
                                 <View style={[
                                     styles.statusContainer,
                                     { backgroundColor: getStatusStyles(booking.statusType).bg, alignSelf: 'flex-start' }
@@ -155,7 +151,6 @@ export default function BookingsScreen() {
                             </View>
                         </View>
 
-                        {/* Bottom Row: Centered Large Stars & Review Link */}
                         < View style={styles.ratingRow} >
                             <View style={styles.starsRow}>
                                 {[1, 2, 3, 4, 5].map((star) => (
@@ -180,7 +175,6 @@ export default function BookingsScreen() {
                     </View>
                 ))
                 }
-                {/* Anti-Overlap Padding */}
                 <View style={{ height: 100 }} />
             </ScrollView >
         </SafeAreaView >

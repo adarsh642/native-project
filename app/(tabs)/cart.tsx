@@ -3,7 +3,6 @@ import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-// Mock Data for Cart Items
 import { useCart } from '@/context/CartContext';
 
 const RECOMMENDED_ADDONS = [
@@ -45,7 +44,6 @@ export default function CartScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity style={styles.backButton}>
                     <IconSymbol name="arrow-left" size={24} color="#1A1A1A" />
@@ -55,7 +53,7 @@ export default function CartScreen() {
 
             <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
 
-                {/* Cart Items */}
+
                 <View style={styles.section}>
                     {items.length === 0 ? (
                         <Text style={{ textAlign: 'center', padding: 20, color: '#666' }}>Your cart is empty</Text>
@@ -89,7 +87,6 @@ export default function CartScreen() {
                         ))
                     )}
 
-                    {/* Add-ons - Horizontal Scroll */}
                     <Text style={styles.sectionSubtitle}>Frequently added together</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.addonsScroll}>
                         {RECOMMENDED_ADDONS.map(addon => (
@@ -106,7 +103,6 @@ export default function CartScreen() {
                     </ScrollView>
                 </View>
 
-                {/* Offers */}
                 <View style={styles.offerSection}>
                     <View style={styles.offerRow}>
                         <IconSymbol name="percent" size={20} color="#009963" />
@@ -118,7 +114,6 @@ export default function CartScreen() {
                     </View>
                 </View>
 
-                {/* Tip Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Add a tip to the professional</Text>
                     <Text style={styles.tipSubtitle}>100% of the tip goes to the professional</Text>
@@ -130,7 +125,6 @@ export default function CartScreen() {
                     </View>
                 </View>
 
-                {/* Payment Summary */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Payment Summary</Text>
 
@@ -157,12 +151,10 @@ export default function CartScreen() {
                     </View>
                 </View>
 
-                {/* Spacer for Floating Footer */}
                 <View style={{ height: 220 }} />
 
             </ScrollView>
 
-            {/* Bottom Footer */}
             <View style={styles.footer}>
                 <View style={styles.addressBar}>
                     <IconSymbol name="house.fill" size={16} color="#6E4CE5" />
