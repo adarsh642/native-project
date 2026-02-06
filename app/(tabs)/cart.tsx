@@ -4,24 +4,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // Mock Data for Cart Items
-const CART_ITEMS = [
-    {
-        id: '1',
-        name: 'Split AC Power Saver Service',
-        price: 499,
-        originalPrice: 699,
-        image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400',
-        quantity: 1,
-    },
-    {
-        id: '2',
-        name: 'Bathroom Deep Cleaning',
-        price: 399,
-        originalPrice: 599,
-        image: 'https://images.herzindagi.info/image/2021/Jul/how-to-deep-clean-bathroom-like-a-professional-main.jpg',
-        quantity: 1,
-    }
-];
+import { useCart } from '@/context/CartContext';
 
 const RECOMMENDED_ADDONS = [
     { id: 'r1', name: 'Threading', price: 49 },
@@ -30,11 +13,16 @@ const RECOMMENDED_ADDONS = [
 
 export default function CartScreen() {
     const router = useRouter();
+    const { items, updateQuantity, removeFromCart } = useCart();
     const [tip, setTip] = useState(50);
 
-    const itemTotal = CART_ITEMS.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const itemTotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const taxesAndFee = 49;
     const finalTotal = itemTotal + tip + taxesAndFee;
+
+    const handleQuantityChange = (id: string, delta: number) => {
+        updateQuantity(id, delta);
+    };
 
     const renderTipButton = (amount: number, label?: string) => (
         <TouchableOpacity
@@ -69,22 +57,36 @@ export default function CartScreen() {
 
                 {/* Cart Items */}
                 <View style={styles.section}>
-                    {CART_ITEMS.map((item) => (
-                        <View key={item.id} style={styles.cartItem}>
-                            <View style={styles.itemRow}>
-                                <Text style={styles.itemName}>{item.name}</Text>
-                                <View style={styles.priceContainer}>
-                                    <Text style={styles.itemPrice}>₹{item.price}</Text>
-                                    <View style={styles.quantityControl}>
-                                        <TouchableOpacity style={styles.qtyBtn}><Text style={styles.qtyBtnText}>-</Text></TouchableOpacity>
-                                        <Text style={styles.qtyText}>{item.quantity}</Text>
-                                        <TouchableOpacity style={styles.qtyBtn}><Text style={styles.qtyBtnText}>+</Text></TouchableOpacity>
+                    {items.length === 0 ? (
+                        <Text style={{ textAlign: 'center', padding: 20, color: '#666' }}>Your cart is empty</Text>
+                    ) : (
+                        items.map((item) => (
+                            <View key={item.id} style={styles.cartItem}>
+                                <View style={styles.itemRow}>
+                                    <Text style={styles.itemName}>{item.name}</Text>
+                                    <View style={styles.priceContainer}>
+                                        <Text style={styles.itemPrice}>₹{item.price}</Text>
+                                        <View style={styles.quantityControl}>
+                                            <TouchableOpacity
+                                                style={styles.qtyBtn}
+                                                onPress={() => item.quantity === 1 ? removeFromCart(item.id) : handleQuantityChange(item.id, -1)}
+                                            >
+                                                <Text style={styles.qtyBtnText}>-</Text>
+                                            </TouchableOpacity>
+                                            <Text style={styles.qtyText}>{item.quantity}</Text>
+                                            <TouchableOpacity
+                                                style={styles.qtyBtn}
+                                                onPress={() => handleQuantityChange(item.id, 1)}
+                                            >
+                                                <Text style={styles.qtyBtnText}>+</Text>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
                                 </View>
+                                <View style={styles.divider} />
                             </View>
-                            <View style={styles.divider} />
-                        </View>
-                    ))}
+                        ))
+                    )}
 
                     {/* Add-ons - Horizontal Scroll */}
                     <Text style={styles.sectionSubtitle}>Frequently added together</Text>
@@ -166,7 +168,11 @@ export default function CartScreen() {
                     <Text style={styles.addressText} numberOfLines={1}>Home - 2167, Block E, Sector 21, Gur..</Text>
                     <IconSymbol name="chevron-right" size={16} color="#666" />
                 </View>
-                <TouchableOpacity style={styles.payButton} onPress={() => router.push('/payment')}>
+                <TouchableOpacity
+                    style={[styles.payButton, items.length === 0 && { backgroundColor: '#ccc' }]}
+                    disabled={items.length === 0}
+                    onPress={() => router.push({ pathname: '/payment', params: { amount: finalTotal } })}
+                >
                     <Text style={styles.payButtonTotal}>₹{finalTotal}</Text>
                     <Text style={styles.payButtonText}>Select a slot</Text>
                 </TouchableOpacity>

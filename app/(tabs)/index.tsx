@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { ServiceCard } from '@/components/ServiceCard';
+import { useCart } from '@/context/CartContext';
 
 // Mock Data
 // Mock Data - Urban Company Style Services
@@ -77,13 +78,16 @@ const SERVICES_PACKAGES = [
 
 export default function HomeScreen() {
   const [activeCategory, setActiveCategory] = useState('1');
-  // const [itemCount, setItemCount] = useState(2);
-  // const [totalPrice, setTotalPrice] = useState(13.80);
+  const { addToCart } = useCart();
 
-  const handleAddToCart = (price: number) => {
-    console.log('Added to cart');
-    // setItemCount(prev => prev + 1);
-    // setTotalPrice(prev => prev + price);
+  const handleAddToCart = (pkg: any) => {
+    addToCart({
+      id: pkg.id,
+      name: pkg.title,
+      price: pkg.price,
+      image: pkg.image,
+    });
+    console.log('Added to cart:', pkg.title);
   };
 
   return (
@@ -163,7 +167,7 @@ export default function HomeScreen() {
                 rating={pkg.rating}
                 price={pkg.price}
                 imageUri={pkg.image}
-                onAdd={() => console.log('Add service', pkg.title)}
+                onAdd={() => handleAddToCart(pkg)}
               />
             ))}
           </ScrollView>

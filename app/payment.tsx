@@ -1,11 +1,11 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function PaymentScreen() {
     const router = useRouter();
-    const amount = 1990; // Mock amount
+    const { amount } = useLocalSearchParams();
 
     return (
         <SafeAreaView style={styles.container}>
