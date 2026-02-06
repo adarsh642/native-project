@@ -1,7 +1,7 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { useCart } from '@/context/CartContext';
 
@@ -178,13 +178,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F9F9F9',
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+        // Removed manual padding adjustment since immersive mode handles it differently
     },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 16,
-        paddingVertical: 12,
+        paddingHorizontal: 20,
+        paddingVertical: 16,
         backgroundColor: '#fff',
         borderBottomWidth: 1,
         borderBottomColor: '#F0F0F0',
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
         padding: 4,
     },
     headerTitle: {
-        fontSize: 20,
+        fontSize: 24,
         fontFamily: 'Inter-Bold',
         color: '#1A1A1A',
     },

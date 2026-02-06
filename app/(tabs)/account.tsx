@@ -1,6 +1,6 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View, Switch } from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 
 const MENU_ITEMS = [
     { id: '1', title: 'Profile', icon: 'person-outline' },
@@ -96,7 +96,7 @@ export default function AccountScreen() {
             <ScrollView contentContainerStyle={styles.scrollContent}>
                 {view === 'menu' ? (
                     <>
-                     
+
                         <View style={styles.profileSection}>
                             <View style={styles.profileHeaderContainer}>
                                 <View style={styles.profilePicContainer}>
@@ -110,7 +110,7 @@ export default function AccountScreen() {
                             </View>
                         </View>
 
-                      
+
                         <View style={styles.menuList}>
                             {MENU_ITEMS.map((item) => (
                                 <TouchableOpacity
@@ -127,7 +127,7 @@ export default function AccountScreen() {
                             ))}
                         </View>
 
-                        
+
                         <View style={styles.footer}>
                             <TouchableOpacity style={styles.logoutButton}>
                                 <Text style={styles.logoutText}>Logout</Text>
@@ -183,8 +183,9 @@ const styles = StyleSheet.create({
     },
     header: {
         paddingHorizontal: 20,
-        paddingTop: 45,
-        paddingBottom: 15,
+        paddingTop: 20,
+        paddingBottom: 20,
+        backgroundColor: '#fff',
         borderBottomWidth: 1,
         borderBottomColor: '#F0F0F0',
     },
@@ -193,10 +194,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     headerTitle: {
-        fontSize: 24,
+        fontSize: 28,
         fontFamily: 'Inter-Bold',
         color: '#1A1A1A',
-        marginLeft: 10,
     },
     scrollContent: {
         paddingBottom: 40,
