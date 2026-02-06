@@ -9,7 +9,6 @@ export default function PaymentScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
                     <IconSymbol name="arrow.left" size={24} color="#1A1A1A" />
@@ -22,7 +21,6 @@ export default function PaymentScreen() {
 
             <ScrollView contentContainerStyle={styles.scrollContent}>
 
-                {/* Previous Payment Methods */}
                 <Text style={styles.sectionTitle}>Previous payment methods</Text>
                 <View style={styles.cardsGrid}>
                     <TouchableOpacity style={styles.card}>
@@ -71,12 +69,10 @@ export default function PaymentScreen() {
                     </TouchableOpacity>
                 </View>
 
-                {/* UPI Section */}
                 <Text style={styles.sectionTitle}>UPI</Text>
                 <View style={styles.upiList}>
                     <TouchableOpacity style={styles.upiItem}>
                         <View style={styles.upiIconContainer}>
-                            {/* Placeholder for GPay Icon */}
                             <Text style={{ color: '#EA4335', fontWeight: 'bold' }}>G</Text>
                         </View>
                         <Text style={styles.upiName}>GPay</Text>
@@ -85,7 +81,6 @@ export default function PaymentScreen() {
 
                     <TouchableOpacity style={styles.upiItem}>
                         <View style={styles.upiIconContainer}>
-                            {/* Placeholder for Amazon Pay Icon */}
                             <Text style={{ color: '#FF9900', fontWeight: 'bold' }}>a</Text>
                         </View>
                         <Text style={styles.upiName}>Amazon Pay</Text>
@@ -94,7 +89,6 @@ export default function PaymentScreen() {
 
                     <TouchableOpacity style={styles.upiItem}>
                         <View style={styles.upiIconContainer}>
-                            {/* Placeholder for PhonePe Icon */}
                             <Text style={{ color: '#6739B7', fontWeight: 'bold' }}>Pe</Text>
                         </View>
                         <Text style={styles.upiName}>Phone Pe</Text>
