@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter-Bold',
         color: '#1A1A1A',
         marginBottom: 4,
-        height: 38, // Fixed height for 2 lines
+        height: 38, 
     },
     price: {
         fontSize: 12,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
     },
     addButtonText: {
-        color: '#6F4E37', // Brownish tone used in Urban Company or customizable
+        color: '#6F4E37', 
         fontFamily: 'Inter-Bold',
         fontSize: 12,
         textTransform: 'uppercase',

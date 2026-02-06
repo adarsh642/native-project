@@ -25,7 +25,6 @@ export function CustomTabBar({ state, descriptors, navigation }: BottomTabBarPro
                     const { options } = descriptors[route.key];
                     const isFocused = state.index === index;
 
-                    // Filter out unwanted routes
                     if (!['index', 'bookings', 'cart', 'account'].includes(route.name)) {
                         return null;
                     }
@@ -59,7 +58,7 @@ export function CustomTabBar({ state, descriptors, navigation }: BottomTabBarPro
                             style={styles.tabButton}
                         >
                             <IconSymbol
-                                size={20} // Slightly more compact icons
+                                size={20} 
                                 name={iconName}
                                 color={isFocused ? '#fff' : '#888'}
                             />
@@ -75,7 +74,7 @@ export function CustomTabBar({ state, descriptors, navigation }: BottomTabBarPro
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        bottom: 25, // Slightly lower
+        bottom: 25, 
         left: 0,
         right: 0,
         alignItems: 'center',
@@ -84,10 +83,10 @@ const styles = StyleSheet.create({
     content: {
         flexDirection: 'row',
         backgroundColor: '#1A1A1A',
-        borderRadius: 40, // Increased for full circular ends
-        paddingVertical: 12, // Increased from 6 
+        borderRadius: 40, 
+        paddingVertical: 12, 
         paddingHorizontal: 15,
-        width: Dimensions.get('window').width * 0.85, // WIDER bar (85%)
+        width: Dimensions.get('window').width * 0.85, 
         justifyContent: 'space-around',
         alignItems: 'center',
         elevation: 10,

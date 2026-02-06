@@ -40,7 +40,7 @@ export const Banner: React.FC<BannerProps> = ({ slides, onPress }) => {
         scrollEventThrottle={16}
         contentContainerStyle={styles.scrollContent}
         decelerationRate="fast"
-        snapToInterval={width} // Snap to screen width
+        snapToInterval={width} 
       >
         {slides.map((slide, index) => (
           <View key={slide.id} style={styles.slideContainer}>
@@ -60,7 +60,7 @@ export const Banner: React.FC<BannerProps> = ({ slides, onPress }) => {
         ))}
       </ScrollView>
 
-      {/* Pagination Dots */}
+     
       <View style={styles.pagination}>
         {slides.map((_, index) => (
           <View
@@ -81,11 +81,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   scrollContent: {
-    // No padding here to ensure paging works correctly on full width logic
   },
   slideContainer: {
-    width: width, // Full width of screen
-    alignItems: 'center', // Center the card within the width
+    width: width, 
+    alignItems: 'center', 
   },
   card: {
     width: CARD_WIDTH,

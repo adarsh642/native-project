@@ -96,7 +96,7 @@ export default function AccountScreen() {
             <ScrollView contentContainerStyle={styles.scrollContent}>
                 {view === 'menu' ? (
                     <>
-                        {/* Profile Section */}
+                     
                         <View style={styles.profileSection}>
                             <View style={styles.profileHeaderContainer}>
                                 <View style={styles.profilePicContainer}>
@@ -110,7 +110,7 @@ export default function AccountScreen() {
                             </View>
                         </View>
 
-                        {/* Menu List */}
+                      
                         <View style={styles.menuList}>
                             {MENU_ITEMS.map((item) => (
                                 <TouchableOpacity
@@ -127,7 +127,7 @@ export default function AccountScreen() {
                             ))}
                         </View>
 
-                        {/* App Version / Logout */}
+                        
                         <View style={styles.footer}>
                             <TouchableOpacity style={styles.logoutButton}>
                                 <Text style={styles.logoutText}>Logout</Text>
